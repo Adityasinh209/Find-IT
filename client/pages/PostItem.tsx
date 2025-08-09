@@ -76,8 +76,15 @@ export default function PostItem() {
     navigate('/', { state: { message: `${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!` } });
   };
 
-  const isFormValid = formData.title && formData.category && formData.description &&
-                     formData.location && formData.date && formData.contactName && formData.contactEmail;
+  // More robust form validation with trimmed values and proper email validation
+  const isFormValid = formData.title.trim() &&
+                     formData.category &&
+                     formData.description.trim() &&
+                     formData.location.trim() &&
+                     formData.date &&
+                     formData.contactName.trim() &&
+                     formData.contactEmail.trim() &&
+                     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail);
 
   return (
     <div className="min-h-screen bg-background">
