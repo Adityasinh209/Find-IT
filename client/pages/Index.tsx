@@ -268,7 +268,7 @@ export default function Index() {
                     <div className="flex items-center text-sm">
                       <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
                       <a href={`mailto:${item.contactEmail}`} className="text-primary hover:underline">
-                        {item.contactEmail}
+                        Contact via Email
                       </a>
                     </div>
                     {item.contactPhone && (
