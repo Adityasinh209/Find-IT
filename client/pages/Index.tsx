@@ -218,7 +218,7 @@ export default function Index() {
               <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <User className="w-8 h-8 text-purple-600 dark:text-purple-400" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{activeUsers}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">{stats.activeUsers}</div>
               <div className="text-muted-foreground text-sm">Active Users</div>
             </div>
           </div>
