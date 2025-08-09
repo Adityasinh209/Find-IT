@@ -152,7 +152,7 @@ export default function Index() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-background to-muted/30 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold text-foreground mb-2">
+          <h2 id="hero-heading" className="text-5xl font-bold text-foreground mb-2">
             Lost Something?
           </h2>
           <h3 className="text-5xl font-bold text-primary mb-6">
