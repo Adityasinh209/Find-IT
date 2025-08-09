@@ -211,7 +211,7 @@ export default function Index() {
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Search className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{itemsFound}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">{stats.itemsFound}</div>
               <div className="text-muted-foreground text-sm">Items Found</div>
             </div>
             <div className="text-center hidden">
