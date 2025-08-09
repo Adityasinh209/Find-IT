@@ -76,8 +76,8 @@ export default function PostItem() {
     navigate('/', { state: { message: `${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!` } });
   };
 
-  const isFormValid = formData.title && formData.category && formData.description && 
-                     formData.location && formData.date && formData.contactEmail;
+  const isFormValid = formData.title && formData.category && formData.description &&
+                     formData.location && formData.date && formData.contactName && formData.contactEmail;
 
   return (
     <div className="min-h-screen bg-background">
@@ -198,27 +198,14 @@ export default function PostItem() {
                   <MapPin className="w-4 h-4" />
                   <span>Location {formData.itemType === 'lost' ? 'Last Seen' : 'Found'} *</span>
                 </Label>
-                <Select value={formData.location} onValueChange={(value) => handleInputChange('location', value)}>
-                  <SelectTrigger className="h-12">
-                    <SelectValue placeholder="Select a location" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {commonLocations.map((location) => (
-                      <SelectItem key={location} value={location}>
-                        {location}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                {formData.location === 'Other' && (
-                  <Input
-                    placeholder="Please specify the location"
-                    value={formData.customLocation}
-                    onChange={(e) => handleInputChange('customLocation', e.target.value)}
-                    className="mt-2 h-12"
-                  />
-                )}
+                <Input
+                  id="location"
+                  placeholder="Enter the specific location (e.g., Main Library - 3rd Floor, Student Union Building - Room 205)"
+                  value={formData.location}
+                  onChange={(e) => handleInputChange('location', e.target.value)}
+                  className="h-12"
+                  required
+                />
               </div>
 
               {/* Date */}
@@ -276,13 +263,14 @@ export default function PostItem() {
                 </h3>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="contactName">Your Name</Label>
+                  <Label htmlFor="contactName">Your Name *</Label>
                   <Input
                     id="contactName"
                     placeholder="Your full name"
                     value={formData.contactName}
                     onChange={(e) => handleInputChange('contactName', e.target.value)}
                     className="h-12"
+                    required
                   />
                 </div>
 
