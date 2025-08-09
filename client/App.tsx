@@ -19,8 +19,7 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ClerkProviderWrapper>
-      <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
+    <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
       <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -54,8 +53,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
       </TooltipProvider>
-      </ThemeProvider>
-    </ClerkProviderWrapper>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 
