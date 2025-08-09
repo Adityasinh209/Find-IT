@@ -256,10 +256,15 @@ const PostItem = React.memo(function PostItem() {
                   id="date"
                   type="date"
                   value={formData.date}
+                  max={new Date().toISOString().split('T')[0]} // Prevent future dates
                   onChange={(e) => handleInputChange('date', e.target.value)}
                   className="h-12"
                   required
+                  aria-describedby="date-help"
                 />
+                <p id="date-help" className="text-xs text-muted-foreground mt-1">
+                  Select the date when the item was {formData.itemType === 'lost' ? 'lost' : 'found'}
+                </p>
               </div>
 
               {/* Image Upload */}
