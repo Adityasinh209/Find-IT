@@ -55,7 +55,23 @@ export default function PostItem() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    // Basic input sanitization
+    const sanitizedValue = value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+
+    // Prevent extremely long inputs (DoS protection)
+    const maxLengths: Record<string, number> = {
+      title: 200,
+      description: 2000,
+      location: 300,
+      contactName: 100,
+      contactEmail: 100,
+      contactPhone: 20
+    };
+
+    const maxLength = maxLengths[field] || 500;
+    const truncatedValue = sanitizedValue.slice(0, maxLength);
+
+    setFormData(prev => ({ ...prev, [field]: truncatedValue }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
