@@ -191,7 +191,7 @@ export default function Index() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+          <div className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Plus className="w-8 h-8 text-blue-600 dark:text-blue-400" />
@@ -199,14 +199,14 @@ export default function Index() {
               <div className="text-3xl font-bold text-foreground mb-2">{totalItemsPosted}</div>
               <div className="text-muted-foreground text-sm">Items Posted</div>
             </div>
-            <div className="text-center">
+            <div className="text-center mr-1">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Search className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
               <div className="text-3xl font-bold text-foreground mb-2">{itemsFound}</div>
               <div className="text-muted-foreground text-sm">Items Found</div>
             </div>
-            <div className="text-center">
+            <div className="text-center hidden">
               <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <User className="w-8 h-8 text-purple-600 dark:text-purple-400" />
               </div>
