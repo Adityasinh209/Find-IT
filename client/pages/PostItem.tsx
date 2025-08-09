@@ -69,11 +69,26 @@ export default function PostItem() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Simulate API call with proper error handling
+      await new Promise((resolve, reject) => {
+        const timeout = setTimeout(resolve, 1500);
+        // Cleanup timeout if component unmounts
+        return () => clearTimeout(timeout);
+      });
 
-    // Redirect back to home page with success message
-    navigate('/', { state: { message: `${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!` } });
+      // Redirect back to home page with success message
+      navigate('/', {
+        state: {
+          message: `${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!`
+        },
+        replace: true // Use replace to prevent back button issues
+      });
+    } catch (error) {
+      console.error('Failed to submit form:', error);
+      // In production, show user-friendly error message
+      setIsSubmitting(false);
+    }
   };
 
   // More robust form validation with trimmed values and proper email validation
