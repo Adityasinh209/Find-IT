@@ -80,14 +80,19 @@ export default function Index() {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          item.location.toLowerCase().includes(searchQuery.toLowerCase());
-    
+
     const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
-    const matchesStatus = selectedStatus === 'All Items' || 
+    const matchesStatus = selectedStatus === 'All Items' ||
                          (selectedStatus === 'Lost Items' && item.status === 'lost') ||
                          (selectedStatus === 'Found Items' && item.status === 'found');
-    
+
     return matchesSearch && matchesCategory && matchesStatus;
   });
+
+  // Calculate real stats from the actual data
+  const totalItemsPosted = recentItems.length;
+  const itemsFound = recentItems.filter(item => item.status === 'found').length;
+  const activeUsers = new Set(recentItems.map(item => item.contactEmail)).size; // Unique users
 
   return (
     <div className="min-h-screen bg-background">
