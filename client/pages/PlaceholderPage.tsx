@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 interface PlaceholderPageProps {
   title: string;
@@ -45,12 +46,25 @@ export default function PlaceholderPage({ title, description }: PlaceholderPageP
                   <span>Report Item</span>
                 </Button>
               </Link>
-              <Avatar className="h-8 w-8">
-                <AvatarImage src="" />
-                <AvatarFallback>
-                  <User className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8"
+                    }
+                  }}
+                />
+              </SignedIn>
+              <SignedOut>
+                <Link to="/sign-in">
+                  <Avatar className="h-8 w-8 cursor-pointer">
+                    <AvatarImage src="" />
+                    <AvatarFallback>
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Link>
+              </SignedOut>
             </div>
           </div>
         </div>
