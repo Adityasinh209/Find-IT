@@ -165,6 +165,34 @@ export default function BrowseItems() {
     }
   });
 
+  // Extract search suggestions from existing data
+  const searchSuggestions = React.useMemo(() => {
+    const suggestions = new Set<string>();
+
+    allItems.forEach(item => {
+      suggestions.add(item.title);
+      suggestions.add(item.category);
+
+      // Add meaningful words from descriptions
+      const words = item.description.split(/\s+/)
+        .filter(word => word.length > 3)
+        .map(word => word.replace(/[^a-zA-Z0-9]/g, ''))
+        .filter(word => word.length > 3);
+
+      words.forEach(word => suggestions.add(word));
+
+      // Add location parts
+      const locationParts = item.location.split(/[-,\s]+/)
+        .filter(part => part.length > 2);
+
+      locationParts.forEach(part => suggestions.add(part.trim()));
+    });
+
+    return Array.from(suggestions)
+      .filter(suggestion => suggestion.length > 2)
+      .sort((a, b) => a.localeCompare(b));
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
