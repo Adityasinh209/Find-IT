@@ -342,9 +342,13 @@ export default function PostItem() {
                   type="submit"
                   disabled={!isFormValid || isSubmitting}
                   className="flex-1"
+                  aria-describedby="submit-status"
                 >
                   {isSubmitting ? 'Submitting...' : `Report ${formData.itemType === 'lost' ? 'Lost' : 'Found'} Item`}
                 </Button>
+                <div id="submit-status" aria-live="polite" className="sr-only">
+                  {isSubmitting ? 'Form is being submitted' : ''}
+                </div>
               </div>
             </form>
           </CardContent>
