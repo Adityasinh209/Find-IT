@@ -1,0 +1,322 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Upload, Calendar, MapPin, User, Mail, Phone, Tag } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+const categories = [
+  "Electronics",
+  "Bags",
+  "Keys",
+  "Personal Items",
+  "Clothing",
+  "Books",
+  "Sports Equipment",
+  "Jewelry",
+  "Other"
+];
+
+const commonLocations = [
+  "Main Library",
+  "Student Union Building",
+  "Recreation Center",
+  "Science Building",
+  "Engineering Building",
+  "Dining Hall",
+  "Dormitory",
+  "Parking Lot",
+  "Campus Grounds",
+  "Other"
+];
+
+export default function PostItem() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    itemType: 'lost', // 'lost' or 'found'
+    title: '',
+    category: '',
+    description: '',
+    location: '',
+    customLocation: '',
+    date: '',
+    contactName: '',
+    contactEmail: '',
+    contactPhone: '',
+    image: null as File | null
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, image: file }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // Redirect back to home page with success message
+    navigate('/', { state: { message: `${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!` } });
+  };
+
+  const isFormValid = formData.title && formData.category && formData.description && 
+                     formData.location && formData.date && formData.contactEmail;
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Link to="/">
+              <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Home</span>
+              </Button>
+            </Link>
+            <h1 className="text-2xl font-bold text-foreground">Report an Item</h1>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-8 max-w-2xl">
+        <Card>
+          <CardHeader>
+            <CardTitle>Item Report</CardTitle>
+            <CardDescription>
+              Help us help you! Provide as much detail as possible to increase the chances of recovery.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Item Type */}
+              <div className="space-y-3">
+                <Label className="text-base font-semibold">What are you reporting?</Label>
+                <RadioGroup 
+                  value={formData.itemType} 
+                  onValueChange={(value) => handleInputChange('itemType', value)}
+                  className="flex space-x-6"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="lost" id="lost" />
+                    <Label htmlFor="lost" className="cursor-pointer">I lost something</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="found" id="found" />
+                    <Label htmlFor="found" className="cursor-pointer">I found something</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
+              {/* Item Title */}
+              <div className="space-y-2">
+                <Label htmlFor="title" className="flex items-center space-x-2">
+                  <Tag className="w-4 h-4" />
+                  <span>Item Title *</span>
+                </Label>
+                <Input
+                  id="title"
+                  placeholder="e.g., iPhone 13 Pro - Blue, Black Backpack, Silver Keys"
+                  value={formData.title}
+                  onChange={(e) => handleInputChange('title', e.target.value)}
+                  className="h-12"
+                  required
+                />
+              </div>
+
+              {/* Category */}
+              <div className="space-y-2">
+                <Label htmlFor="category">Category *</Label>
+                <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                  <SelectTrigger className="h-12">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Description */}
+              <div className="space-y-2">
+                <Label htmlFor="description">Detailed Description *</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Provide a detailed description including color, brand, size, distinguishing features, etc. The more details, the better!"
+                  value={formData.description}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  className="min-h-[120px]"
+                  required
+                />
+              </div>
+
+              {/* Location */}
+              <div className="space-y-2">
+                <Label htmlFor="location" className="flex items-center space-x-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>Location {formData.itemType === 'lost' ? 'Last Seen' : 'Found'} *</span>
+                </Label>
+                <Select value={formData.location} onValueChange={(value) => handleInputChange('location', value)}>
+                  <SelectTrigger className="h-12">
+                    <SelectValue placeholder="Select a location" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {commonLocations.map((location) => (
+                      <SelectItem key={location} value={location}>
+                        {location}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                {formData.location === 'Other' && (
+                  <Input
+                    placeholder="Please specify the location"
+                    value={formData.customLocation}
+                    onChange={(e) => handleInputChange('customLocation', e.target.value)}
+                    className="mt-2 h-12"
+                  />
+                )}
+              </div>
+
+              {/* Date */}
+              <div className="space-y-2">
+                <Label htmlFor="date" className="flex items-center space-x-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>Date {formData.itemType === 'lost' ? 'Lost' : 'Found'} *</span>
+                </Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) => handleInputChange('date', e.target.value)}
+                  className="h-12"
+                  required
+                />
+              </div>
+
+              {/* Image Upload */}
+              <div className="space-y-2">
+                <Label htmlFor="image" className="flex items-center space-x-2">
+                  <Upload className="w-4 h-4" />
+                  <span>Photo (Optional)</span>
+                </Label>
+                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                  <input
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <label htmlFor="image" className="cursor-pointer">
+                    <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">
+                      Click to upload a photo or drag and drop
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      PNG, JPG, GIF up to 10MB
+                    </p>
+                  </label>
+                  {formData.image && (
+                    <p className="text-sm text-primary mt-2">
+                      Selected: {formData.image.name}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Contact Information */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold flex items-center space-x-2">
+                  <User className="w-5 h-5" />
+                  <span>Contact Information</span>
+                </h3>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="contactName">Your Name</Label>
+                  <Input
+                    id="contactName"
+                    placeholder="Your full name"
+                    value={formData.contactName}
+                    onChange={(e) => handleInputChange('contactName', e.target.value)}
+                    className="h-12"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="contactEmail" className="flex items-center space-x-2">
+                    <Mail className="w-4 h-4" />
+                    <span>Email Address *</span>
+                  </Label>
+                  <Input
+                    id="contactEmail"
+                    type="email"
+                    placeholder="your.email@university.edu"
+                    value={formData.contactEmail}
+                    onChange={(e) => handleInputChange('contactEmail', e.target.value)}
+                    className="h-12"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="contactPhone" className="flex items-center space-x-2">
+                    <Phone className="w-4 h-4" />
+                    <span>Phone Number (Optional)</span>
+                  </Label>
+                  <Input
+                    id="contactPhone"
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={formData.contactPhone}
+                    onChange={(e) => handleInputChange('contactPhone', e.target.value)}
+                    className="h-12"
+                  />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="flex space-x-4 pt-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => navigate('/')}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={!isFormValid || isSubmitting}
+                  className="flex-1"
+                >
+                  {isSubmitting ? 'Submitting...' : `Report ${formData.itemType === 'lost' ? 'Lost' : 'Found'} Item`}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
