@@ -199,21 +199,16 @@ export default function Index() {
           
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
-            <div className="flex gap-3 p-2 bg-card rounded-full shadow-sm border">
-              <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <Input
-                  placeholder="Search for lost items..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 h-12 border-0 bg-transparent text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
-                />
-              </div>
-              <Button className="h-12 px-8 rounded-full">
-                Search
-                <Search className="w-4 h-4 ml-2" />
-              </Button>
-            </div>
+            <AutocompleteSearch
+              value={searchQuery}
+              onChange={setSearchQuery}
+              suggestions={searchSuggestions}
+              placeholder="Search for lost items..."
+              onSearch={() => {
+                // Optional: Add analytics or additional search logic here
+                console.log('Search performed:', searchQuery);
+              }}
+            />
           </div>
 
           {/* Action Buttons */}
