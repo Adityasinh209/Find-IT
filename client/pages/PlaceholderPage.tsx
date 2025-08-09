@@ -5,7 +5,24 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+// Conditionally import Clerk components
+const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const isClerkConfigured = CLERK_KEY && CLERK_KEY !== 'your_clerk_publishable_key_here' && CLERK_KEY.startsWith('pk_')
+
+let SignedIn: any = () => null
+let SignedOut: any = ({ children }: { children: React.ReactNode }) => <>{children}</>
+let UserButton: any = () => null
+
+if (isClerkConfigured) {
+  try {
+    const clerkModule = require('@clerk/clerk-react')
+    SignedIn = clerkModule.SignedIn
+    SignedOut = clerkModule.SignedOut
+    UserButton = clerkModule.UserButton
+  } catch (error) {
+    console.warn('Clerk not available:', error)
+  }
+}
 
 interface PlaceholderPageProps {
   title: string;
@@ -46,25 +63,36 @@ export default function PlaceholderPage({ title, description }: PlaceholderPageP
                   <span>Report Item</span>
                 </Button>
               </Link>
-              <SignedIn>
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: "h-8 w-8"
-                    }
-                  }}
-                />
-              </SignedIn>
-              <SignedOut>
-                <Link to="/sign-in">
-                  <Avatar className="h-8 w-8 cursor-pointer">
-                    <AvatarImage src="" />
-                    <AvatarFallback>
-                      <User className="h-4 w-4" />
-                    </AvatarFallback>
-                  </Avatar>
-                </Link>
-              </SignedOut>
+              {isClerkConfigured ? (
+                <>
+                  <SignedIn>
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: "h-8 w-8"
+                        }
+                      }}
+                    />
+                  </SignedIn>
+                  <SignedOut>
+                    <Link to="/sign-in">
+                      <Avatar className="h-8 w-8 cursor-pointer">
+                        <AvatarImage src="" />
+                        <AvatarFallback>
+                          <User className="h-4 w-4" />
+                        </AvatarFallback>
+                      </Avatar>
+                    </Link>
+                  </SignedOut>
+                </>
+              ) : (
+                <Avatar className="h-8 w-8 cursor-pointer" title="Demo Mode - Clerk not configured">
+                  <AvatarImage src="" />
+                  <AvatarFallback>
+                    <User className="h-4 w-4" />
+                  </AvatarFallback>
+                </Avatar>
+              )}
             </div>
           </div>
         </div>
