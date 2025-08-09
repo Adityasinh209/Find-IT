@@ -103,6 +103,39 @@ export default function Index() {
     return { totalItemsPosted, itemsFound, activeUsers };
   }, [recentItems]);
 
+  // Extract search suggestions from existing data
+  const searchSuggestions = useMemo(() => {
+    const suggestions = new Set<string>();
+
+    recentItems.forEach(item => {
+      // Add item titles
+      suggestions.add(item.title);
+
+      // Add categories
+      suggestions.add(item.category);
+
+      // Add common words from descriptions (longer than 3 characters)
+      const words = item.description.split(/\s+/)
+        .filter(word => word.length > 3)
+        .map(word => word.replace(/[^a-zA-Z0-9]/g, ''))
+        .filter(word => word.length > 3);
+
+      words.forEach(word => suggestions.add(word));
+
+      // Add location parts
+      const locationParts = item.location.split(/[-,\s]+/)
+        .filter(part => part.length > 2)
+        .map(part => part.trim());
+
+      locationParts.forEach(part => suggestions.add(part));
+    });
+
+    // Convert to array and sort
+    return Array.from(suggestions)
+      .filter(suggestion => suggestion.length > 2)
+      .sort((a, b) => a.localeCompare(b));
+  }, [recentItems]);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
