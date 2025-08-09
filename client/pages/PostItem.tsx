@@ -36,7 +36,7 @@ const commonLocations = [
   "Other"
 ];
 
-export default function PostItem() {
+const PostItem = React.memo(function PostItem() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     itemType: 'lost', // 'lost' or 'found'
@@ -372,4 +372,6 @@ export default function PostItem() {
       </div>
     </div>
   );
-}
+});
+
+export default PostItem;
