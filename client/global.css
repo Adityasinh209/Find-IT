@@ -101,7 +101,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: "Times New Roman", Times, serif;
   }
 
   .line-clamp-3 {
