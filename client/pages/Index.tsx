@@ -224,7 +224,7 @@ export default function Index() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredItems.slice(0, 6).map((item) => (
-              <Card key={item.id} className="hover:shadow-lg transition-shadow">
+              <Card key={item.id} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md bg-card/50 backdrop-blur-sm">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
                     <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
