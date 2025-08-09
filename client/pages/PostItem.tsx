@@ -77,6 +77,22 @@ const PostItem = React.memo(function PostItem() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Security validations
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+
+      if (file.size > maxSize) {
+        alert('File size too large. Please select an image under 10MB.');
+        e.target.value = ''; // Clear the input
+        return;
+      }
+
+      if (!allowedTypes.includes(file.type)) {
+        alert('Invalid file type. Please select a valid image file (JPEG, PNG, GIF, WebP).');
+        e.target.value = ''; // Clear the input
+        return;
+      }
+
       setFormData(prev => ({ ...prev, image: file }));
     }
   };
