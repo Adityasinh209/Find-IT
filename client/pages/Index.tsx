@@ -204,7 +204,7 @@ export default function Index() {
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Plus className="w-8 h-8 text-blue-600 dark:text-blue-400" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{totalItemsPosted}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">{stats.totalItemsPosted}</div>
               <div className="text-muted-foreground text-sm">Items Posted</div>
             </div>
             <div className="text-center mr-1">
