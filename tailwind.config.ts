@@ -12,6 +12,9 @@ export default {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ['"Times New Roman"', 'Times', 'serif'],
+    },
     extend: {
       colors: {
         border: "rgb(var(--border))",
