@@ -241,13 +241,16 @@ export default function BrowseItems() {
         {/* Search and Filters */}
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row gap-4 mb-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <Input
-                placeholder="Search for items..."
+            <div className="flex-1">
+              <AutocompleteSearch
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 h-12"
+                onChange={setSearchQuery}
+                suggestions={searchSuggestions}
+                placeholder="Search for items..."
+                className="max-w-none"
+                onSearch={() => {
+                  console.log('Browse search performed:', searchQuery);
+                }}
               />
             </div>
             <div className="flex flex-wrap gap-2">
