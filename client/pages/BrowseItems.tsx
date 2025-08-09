@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Checkbox } from '@/components/ui/checkbox';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AutocompleteSearch } from '@/components/AutocompleteSearch';
 
 // Extended mock data
 const allItems = [
