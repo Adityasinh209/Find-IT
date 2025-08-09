@@ -148,7 +148,7 @@ export default function PostItem() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6" aria-label="Report lost or found item">
               {/* Item Type */}
               <div className="space-y-3">
                 <Label className="text-base font-semibold">What are you reporting?</Label>
