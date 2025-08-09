@@ -54,7 +54,7 @@ const PostItem = React.memo(function PostItem() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = useCallback((field: string, value: string) => {
     // Basic input sanitization
     const sanitizedValue = value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 
@@ -72,9 +72,9 @@ const PostItem = React.memo(function PostItem() {
     const truncatedValue = sanitizedValue.slice(0, maxLength);
 
     setFormData(prev => ({ ...prev, [field]: truncatedValue }));
-  };
+  }, []);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       // Security validations
@@ -95,7 +95,7 @@ const PostItem = React.memo(function PostItem() {
 
       setFormData(prev => ({ ...prev, image: file }));
     }
-  };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
