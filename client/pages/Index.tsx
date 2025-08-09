@@ -93,10 +93,14 @@ export default function Index() {
     });
   }, [searchQuery, selectedCategory, selectedStatus]);
 
-  // Calculate real stats from the actual data
-  const totalItemsPosted = recentItems.length;
-  const itemsFound = recentItems.filter(item => item.status === 'found').length;
-  const activeUsers = new Set(recentItems.map(item => item.contactEmail)).size; // Unique users
+  // Calculate real stats from the actual data with memoization
+  const stats = useMemo(() => {
+    const totalItemsPosted = recentItems.length;
+    const itemsFound = recentItems.filter(item => item.status === 'found').length;
+    const activeUsers = new Set(recentItems.map(item => item.contactEmail)).size;
+
+    return { totalItemsPosted, itemsFound, activeUsers };
+  }, [recentItems]);
 
   return (
     <div className="min-h-screen bg-background">
