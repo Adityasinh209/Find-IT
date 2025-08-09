@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Upload, Calendar, MapPin, User, Mail, Phone, Tag } from 'lucide-react';
+import { ArrowLeft, Upload, Calendar, MapPin, User, Mail, Phone, Tag, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -8,6 +8,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const categories = [
   "Electronics",
@@ -84,21 +86,42 @@ export default function PostItem() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Link to="/">
-              <Button variant="ghost" size="sm" className="flex items-center space-x-2">
-                <ArrowLeft className="w-4 h-4" />
-                <span>Back to Home</span>
-              </Button>
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <ArrowLeft className="w-5 h-5 text-primary-foreground" />
+              </div>
             </Link>
-            <h1 className="text-2xl font-bold text-foreground">Report an Item</h1>
+            <Link to="/" className="text-2xl font-bold text-primary">FindIt</Link>
+          </div>
+          <div className="flex items-center space-x-3">
+            <nav className="hidden md:flex items-center space-x-6 text-sm">
+              <Link to="/browse" className="text-muted-foreground hover:text-foreground transition-colors">
+                Browse Items
+              </Link>
+              <Link to="/post" className="text-foreground font-medium">
+                Report Lost Item
+              </Link>
+              <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
+                About
+              </Link>
+            </nav>
+            <div className="flex items-center space-x-2">
+              <ThemeToggle />
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="" />
+                <AvatarFallback>
+                  <User className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            </div>
           </div>
         </div>
       </header>
 
       <div className="container mx-auto px-4 py-8 max-w-2xl">
-        <Card>
-          <CardHeader>
-            <CardTitle>Item Report</CardTitle>
-            <CardDescription>
+        <Card className="shadow-lg">
+          <CardHeader className="text-center pb-8">
+            <CardTitle className="text-3xl font-bold mb-2">Report an Item</CardTitle>
+            <CardDescription className="text-lg">
               Help us help you! Provide as much detail as possible to increase the chances of recovery.
             </CardDescription>
           </CardHeader>
