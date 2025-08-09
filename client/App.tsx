@@ -6,18 +6,22 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
+import ClerkProviderWrapper from "@/components/clerk-provider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import PostItem from "./pages/PostItem";
 import BrowseItems from "./pages/BrowseItems";
 import PlaceholderPage from "./pages/PlaceholderPage";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
+    <ClerkProviderWrapper>
+      <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
       <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -26,6 +30,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/post" element={<PostItem />} />
           <Route path="/browse" element={<BrowseItems />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
           <Route path="/admin" element={
             <PlaceholderPage
               title="Admin Portal"
@@ -49,7 +55,8 @@ const App = () => (
         </Routes>
       </BrowserRouter>
       </TooltipProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </ClerkProviderWrapper>
   </QueryClientProvider>
 );
 
