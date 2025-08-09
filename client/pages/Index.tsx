@@ -143,7 +143,7 @@ export default function Index() {
             Lost Something?
           </h2>
           <h3 className="text-5xl font-bold text-primary mb-6">
-            We'll Help You Find It
+            We're Here for You
           </h3>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
             Connect with your campus community to reunite lost items with their owners. Report
@@ -170,15 +170,15 @@ export default function Index() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <Link to="/post">
-              <Button size="lg" className="w-full sm:w-auto px-8 py-3 text-lg">
+              <Button size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
                 <Plus className="w-5 h-5 mr-2" />
                 Report Lost Item
               </Button>
             </Link>
             <Link to="/browse">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 py-3 text-lg">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
                 <Search className="w-5 h-5 mr-2" />
                 Browse All Items
               </Button>
