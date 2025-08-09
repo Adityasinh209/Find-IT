@@ -22,6 +22,26 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/post" element={<PostItem />} />
+          <Route path="/browse" element={<BrowseItems />} />
+          <Route path="/admin" element={
+            <PlaceholderPage
+              title="Admin Portal"
+              description="Administrative tools for moderating posts and managing the Lost & Found system."
+            />
+          } />
+          <Route path="/my-items" element={
+            <PlaceholderPage
+              title="My Items"
+              description="Track your reported items and their status."
+            />
+          } />
+          <Route path="/help" element={
+            <PlaceholderPage
+              title="Help & Support"
+              description="Get help using the Lost & Found portal and contact support."
+            />
+          } />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
