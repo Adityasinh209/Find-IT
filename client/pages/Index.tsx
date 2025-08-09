@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Plus, MapPin, Calendar, Tag, Eye, Phone, Mail } from 'lucide-react';
+import { Search, Plus, MapPin, Calendar, Tag, Eye, Phone, Mail, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // Mock data for recent items
 const recentItems = [
@@ -96,96 +98,128 @@ export default function Index() {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Search className="w-5 h-5 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">Campus Lost & Found</h1>
+            <h1 className="text-2xl font-bold text-primary">FindIt</h1>
           </div>
-          <Link to="/post">
-            <Button className="flex items-center space-x-2">
-              <Plus className="w-4 h-4" />
-              <span>Report Item</span>
-            </Button>
-          </Link>
+          <div className="flex items-center space-x-3">
+            <nav className="hidden md:flex items-center space-x-6 text-sm">
+              <Link to="/browse" className="text-muted-foreground hover:text-foreground transition-colors">
+                Browse Items
+              </Link>
+              <Link to="/post" className="text-muted-foreground hover:text-foreground transition-colors">
+                Report Lost Item
+              </Link>
+              <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
+                About
+              </Link>
+            </nav>
+            <div className="flex items-center space-x-2">
+              <Link to="/browse">
+                <Button variant="ghost" size="sm">
+                  Browse
+                </Button>
+              </Link>
+              <ThemeToggle />
+              <Link to="/post">
+                <Button size="sm" className="flex items-center space-x-2">
+                  <Plus className="w-4 h-4" />
+                  <span>Report Lost</span>
+                </Button>
+              </Link>
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="" />
+                <AvatarFallback>
+                  <User className="h-4 w-4" />
+                </AvatarFallback>
+              </Avatar>
+            </div>
+          </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-accent to-accent/50 py-16">
+      <section className="bg-gradient-to-br from-background to-muted/30 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-foreground mb-4">
-            Lost Something? Found Something?
+          <h2 className="text-5xl font-bold text-foreground mb-2">
+            Lost Something?
           </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Our campus Lost & Found portal helps you reconnect with your belongings. 
-            Report lost items, browse found items, or help others find what they've lost.
+          <h3 className="text-5xl font-bold text-primary mb-6">
+            We'll Help You Find It
+          </h3>
+          <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Connect with your campus community to reunite lost items with their owners. Report
+            what you've lost or found, and help make our campus a better place.
           </p>
           
           {/* Search Bar */}
-          <div className="max-w-4xl mx-auto mb-8">
-            <div className="flex flex-col lg:flex-row gap-4 p-6 bg-card rounded-lg shadow-lg border">
+          <div className="max-w-2xl mx-auto mb-12">
+            <div className="flex gap-3 p-2 bg-card rounded-full shadow-sm border">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
-                  placeholder="Search for items by name, description, or location..."
+                  placeholder="Search for lost items..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-12 text-lg"
+                  className="pl-12 h-12 border-0 bg-transparent text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-full sm:w-48 h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                  <SelectTrigger className="w-full sm:w-40 h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="All Items">All Items</SelectItem>
-                    <SelectItem value="Lost Items">Lost Items</SelectItem>
-                    <SelectItem value="Found Items">Found Items</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Button className="h-12 px-8 rounded-full">
+                Search
+                <Search className="w-4 h-4 ml-2" />
+              </Button>
             </div>
           </div>
 
-          {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto">
-            <div className="bg-card rounded-lg p-6 border">
-              <div className="text-3xl font-bold text-primary mb-2">47</div>
-              <div className="text-muted-foreground">Items Reported</div>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Link to="/post">
+              <Button size="lg" className="w-full sm:w-auto px-8 py-3 text-lg">
+                <Plus className="w-5 h-5 mr-2" />
+                Report Lost Item
+              </Button>
+            </Link>
+            <Link to="/browse">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto px-8 py-3 text-lg">
+                <Search className="w-5 h-5 mr-2" />
+                Browse All Items
+              </Button>
+            </Link>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-8 max-w-3xl mx-auto">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Plus className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">2,847</div>
+              <div className="text-muted-foreground text-sm">Items Posted</div>
             </div>
-            <div className="bg-card rounded-lg p-6 border">
-              <div className="text-3xl font-bold text-green-600 mb-2">23</div>
-              <div className="text-muted-foreground">Successfully Returned</div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Search className="w-8 h-8 text-green-600 dark:text-green-400" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">1,923</div>
+              <div className="text-muted-foreground text-sm">Items Found</div>
             </div>
-            <div className="bg-card rounded-lg p-6 border">
-              <div className="text-3xl font-bold text-orange-600 mb-2">12</div>
-              <div className="text-muted-foreground">Waiting to be Claimed</div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <User className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">8,152</div>
+              <div className="text-muted-foreground text-sm">Active Users</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Recent Items */}
-      <section className="py-16">
+      <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-bold text-foreground">Recent Reports</h3>
-            <Link to="/browse">
-              <Button variant="outline" className="flex items-center space-x-2">
-                <Eye className="w-4 h-4" />
-                <span>View All Items</span>
-              </Button>
-            </Link>
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-foreground mb-4">Recent Reports</h3>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              See what's been recently reported on campus. Your lost item might already be here!
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -286,11 +320,51 @@ export default function Index() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-card border-t py-8">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-muted-foreground">
-            © 2024 Campus Lost & Found. Helping students reconnect with their belongings.
-          </p>
+      <footer className="bg-card border-t py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h4 className="text-lg font-bold text-primary mb-4">FindIt</h4>
+              <p className="text-sm text-muted-foreground">
+                Helping campus communities reunite with their lost belongings.
+              </p>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-3">Quick Links</h5>
+              <div className="space-y-2">
+                <Link to="/browse" className="block text-sm text-muted-foreground hover:text-foreground">
+                  Browse Items
+                </Link>
+                <Link to="/post" className="block text-sm text-muted-foreground hover:text-foreground">
+                  Report Item
+                </Link>
+                <Link to="/help" className="block text-sm text-muted-foreground hover:text-foreground">
+                  Help & Support
+                </Link>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-3">Features</h5>
+              <div className="space-y-2">
+                <div className="text-sm text-muted-foreground">Smart Search</div>
+                <div className="text-sm text-muted-foreground">Real-time Updates</div>
+                <div className="text-sm text-muted-foreground">Safe & Secure</div>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold mb-3">Support</h5>
+              <div className="space-y-2">
+                <div className="text-sm text-muted-foreground">Contact Us</div>
+                <div className="text-sm text-muted-foreground">Privacy Policy</div>
+                <div className="text-sm text-muted-foreground">Terms of Service</div>
+              </div>
+            </div>
+          </div>
+          <div className="border-t pt-8 text-center">
+            <p className="text-sm text-muted-foreground">
+              © 2024 FindIt. All rights reserved. Helping students reconnect with their belongings.
+            </p>
+          </div>
         </div>
       </footer>
     </div>
