@@ -141,14 +141,17 @@ const PostItem = React.memo(function PostItem() {
 
       // Save to Firebase
       const itemId = await FirebaseService.createItem(itemData);
+      console.log('Item successfully created with ID:', itemId);
 
       // Show success message
-      toast.success(`${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!`);
+      toast.success(`${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully! Redirecting...`);
 
-      // Redirect back to home page
-      navigate('/', {
-        replace: true // Use replace to prevent back button issues
-      });
+      // Wait a moment for user to see the success message, then redirect
+      setTimeout(() => {
+        navigate('/', {
+          replace: true // Use replace to prevent back button issues
+        });
+      }, 1500);
     } catch (error) {
       console.error('Failed to submit form:', error);
       toast.error('Failed to submit item. Please try again.');
