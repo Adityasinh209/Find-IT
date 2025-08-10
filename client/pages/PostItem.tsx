@@ -56,6 +56,17 @@ const PostItem = React.memo(function PostItem() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Auto-fill contact information from Clerk user data
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        contactName: user.fullName || `${user.firstName || ''} ${user.lastName || ''}`.trim() || '',
+        contactEmail: user.primaryEmailAddress?.emailAddress || ''
+      }));
+    }
+  }, [user]);
+
   const handleInputChange = useCallback((field: string, value: string) => {
     // Basic input sanitization
     const sanitizedValue = value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
