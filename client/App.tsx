@@ -27,7 +27,14 @@ if (!PUBLISHABLE_KEY) {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
+    <ClerkProvider
+      publishableKey={PUBLISHABLE_KEY}
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      afterSignInUrl="/"
+      afterSignUpUrl="/"
+    >
+      <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
       <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -61,7 +68,8 @@ const App = () => (
         </Routes>
       </BrowserRouter>
       </TooltipProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </ClerkProvider>
   </QueryClientProvider>
 );
 
