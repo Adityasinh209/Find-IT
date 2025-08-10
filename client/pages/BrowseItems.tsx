@@ -80,7 +80,7 @@ const allItems = [
     dateReported: "2024-01-10",
     status: "lost",
     contactEmail: "jane.adams@university.edu",
-    contactPhone: "(555) 333-4444"
+    contactPhone: "+91 43210 98765"
   },
   {
     id: 7,
