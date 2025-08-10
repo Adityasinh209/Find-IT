@@ -187,6 +187,21 @@ export default function Index() {
             />
           </div>
 
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+            <Link to="/post">
+              <Button size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
+                <Plus className="w-5 h-5 mr-2" />
+                Report Lost Item
+              </Button>
+            </Link>
+            <Link to="/browse">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
+                <Search className="w-5 h-5 mr-2" />
+                Browse All Items
+              </Button>
+            </Link>
+          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
