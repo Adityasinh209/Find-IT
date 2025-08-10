@@ -92,7 +92,9 @@ const App = () => {
           <AppContent />
         </ClerkProvider>
       ) : (
-        <AppContent />
+        <FallbackAuthProvider>
+          <AppContent />
+        </FallbackAuthProvider>
       )}
     </QueryClientProvider>
   );
