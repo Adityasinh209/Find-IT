@@ -91,7 +91,7 @@ const allItems = [
     dateReported: "2024-01-09",
     status: "found",
     contactEmail: "chem.dept@university.edu",
-    contactPhone: "(555) 555-6666"
+    contactPhone: "+91 32109 87654"
   },
   {
     id: 8,
