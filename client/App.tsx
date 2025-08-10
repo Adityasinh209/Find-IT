@@ -16,7 +16,6 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
-import { FallbackAuthProvider } from "./components/fallback-auth";
 
 const queryClient = new QueryClient();
 
