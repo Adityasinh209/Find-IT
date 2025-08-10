@@ -383,7 +383,7 @@ const PostItem = React.memo(function PostItem() {
                   <Input
                     id="contactPhone"
                     type="tel"
-                    placeholder="+91 98765 43210"
+                    placeholder="+91 98XXXXXXXX"
                     value={formData.contactPhone}
                     onChange={(e) => handleInputChange('contactPhone', e.target.value)}
                     className="h-12"
