@@ -102,7 +102,7 @@ const allItems = [
     dateReported: "2024-01-08",
     status: "lost",
     contactEmail: "runner@university.edu",
-    contactPhone: "(555) 777-8888"
+    contactPhone: "+91 21098 76543"
   }
 ];
 
