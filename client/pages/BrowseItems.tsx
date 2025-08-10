@@ -103,7 +103,7 @@ export default function BrowseItems() {
   }, [filteredItems, sortBy]);
 
   // Extract search suggestions from existing data
-  const searchSuggestions = React.useMemo(() => {
+  const searchSuggestions = useMemo(() => {
     const suggestions = new Set<string>();
 
     allItems.forEach(item => {
@@ -128,7 +128,7 @@ export default function BrowseItems() {
     return Array.from(suggestions)
       .filter(suggestion => suggestion.length > 2)
       .sort((a, b) => a.localeCompare(b));
-  }, []);
+  }, [allItems]);
 
   return (
     <div className="min-h-screen bg-background">
