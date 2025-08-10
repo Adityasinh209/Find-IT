@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AutocompleteSearch } from '@/components/AutocompleteSearch';
-import { SignedIn, SignedOut, UserButton } from '@/components/auth-components';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 import { FirebaseService } from '@/services/firebaseService';
 import { LostFoundItem } from '@/types/database';
 
