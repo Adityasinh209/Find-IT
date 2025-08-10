@@ -22,7 +22,7 @@ const recentItems = [
     dateReported: "2024-01-15",
     status: "lost",
     contactEmail: "john.doe@university.edu",
-    contactPhone: "(555) 123-4567",
+    contactPhone: "+91 98765 43210",
     image: "/placeholder.svg"
   },
   {
