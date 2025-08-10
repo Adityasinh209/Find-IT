@@ -102,12 +102,18 @@ export default function Index() {
 
         setRecentItems(mockItems);
         setError(null); // Don't show error for fallback data
-      } finally {
         setLoading(false);
       }
     };
 
-    loadRecentItems();
+    setupFirebaseListener();
+
+    // Cleanup listener on component unmount
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
   const filteredItems = useMemo(() => {
