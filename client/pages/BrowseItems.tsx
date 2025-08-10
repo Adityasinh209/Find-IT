@@ -146,12 +146,18 @@ export default function BrowseItems() {
 
         setAllItems(mockItems);
         setError(null); // Don't show error for fallback data
-      } finally {
         setLoading(false);
       }
     };
 
-    loadAllItems();
+    setupFirebaseListener();
+
+    // Cleanup listener on component unmount
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
   const filteredItems = useMemo(() => {
