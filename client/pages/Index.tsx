@@ -34,7 +34,7 @@ const recentItems = [
     dateReported: "2024-01-14",
     status: "lost",
     contactEmail: "sarah.smith@university.edu",
-    contactPhone: "(555) 987-6543"
+    contactPhone: "+91 87654 32109"
   },
   {
     id: 3,
