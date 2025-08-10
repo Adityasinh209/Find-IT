@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Search, Filter, MapPin, Calendar, Tag, Mail, Phone, SlidersHorizontal, User, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,8 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AutocompleteSearch } from '@/components/AutocompleteSearch';
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+import { FirebaseService } from '@/services/firebaseService';
+import { LostFoundItem } from '@/types/database';
 
 // Extended mock data
 const allItems = [
