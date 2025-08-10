@@ -153,26 +153,12 @@ export default function Index() {
               <Link to="/browse" className="text-muted-foreground hover:text-foreground transition-colors">
                 Browse Items
               </Link>
-              <Link to="/post" className="text-muted-foreground hover:text-foreground transition-colors">
-                Report Lost Item
-              </Link>
               <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
                 About
               </Link>
             </nav>
             <div className="flex items-center space-x-2">
-              <Link to="/browse">
-                <Button variant="ghost" size="sm">
-                  Browse
-                </Button>
-              </Link>
               <ThemeToggle />
-              <Link to="/post">
-                <Button size="sm" className="flex items-center space-x-2">
-                  <Plus className="w-4 h-4" />
-                  <span>Report Lost</span>
-                </Button>
-              </Link>
               <SignedIn>
                 <UserButton
                   appearance={{
@@ -225,21 +211,6 @@ export default function Index() {
             />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-            <Link to="/post">
-              <Button size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
-                <Plus className="w-5 h-5 mr-2" />
-                Report Lost Item
-              </Button>
-            </Link>
-            <Link to="/browse">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
-                <Search className="w-5 h-5 mr-2" />
-                Browse All Items
-              </Button>
-            </Link>
-          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
