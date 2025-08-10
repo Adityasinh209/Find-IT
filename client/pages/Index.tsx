@@ -35,6 +35,25 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Load recent items from Firebase on component mount
+  useEffect(() => {
+    const loadRecentItems = async () => {
+      try {
+        setLoading(true);
+        const items = await FirebaseService.getRecentItems(6);
+        setRecentItems(items);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading recent items:', err);
+        setError('Failed to load recent items. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadRecentItems();
+  }, []);
+
   const filteredItems = useMemo(() => {
     return recentItems.filter(item => {
       const lowerSearchQuery = searchQuery.toLowerCase();
@@ -50,7 +69,7 @@ export default function Index() {
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
-  }, [searchQuery, selectedCategory, selectedStatus]);
+  }, [recentItems, searchQuery, selectedCategory, selectedStatus]);
 
   // Calculate real stats from the actual data with memoization
   const stats = useMemo(() => {
