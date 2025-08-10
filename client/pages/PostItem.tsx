@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, Calendar, MapPin, User, Mail, Phone, Tag, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
