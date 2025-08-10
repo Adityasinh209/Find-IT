@@ -47,7 +47,7 @@ const allItems = [
     dateReported: "2024-01-13",
     status: "lost",
     contactEmail: "mike.wilson@university.edu",
-    contactPhone: "(555) 456-7890"
+    contactPhone: "+91 76543 21098"
   },
   {
     id: 4,
