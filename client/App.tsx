@@ -42,7 +42,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/post" element={<PostItem />} />
+          <Route path="/post" element={
+            <ProtectedRoute>
+              <PostItem />
+            </ProtectedRoute>
+          } />
           <Route path="/browse" element={<BrowseItems />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
