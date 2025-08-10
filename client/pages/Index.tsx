@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Plus, MapPin, Calendar, Tag, Eye, Phone, Mail, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,8 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AutocompleteSearch } from '@/components/AutocompleteSearch';
 import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
+import { FirebaseService } from '@/services/firebaseService';
+import { LostFoundItem } from '@/types/database';
 
 // Mock data for recent items
 const recentItems = [
