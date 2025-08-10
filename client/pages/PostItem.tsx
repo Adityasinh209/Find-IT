@@ -152,9 +152,20 @@ const PostItem = React.memo(function PostItem() {
           replace: true // Use replace to prevent back button issues
         });
       }, 1500);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to submit form:', error);
-      toast.error('Failed to submit item. Please try again.');
+
+      // More specific error messages
+      let errorMessage = 'Failed to submit item. Please try again.';
+      if (error?.message?.includes('permission')) {
+        errorMessage = 'Permission denied. Please check your authentication.';
+      } else if (error?.message?.includes('network')) {
+        errorMessage = 'Network error. Please check your connection.';
+      } else if (error?.message?.includes('quota')) {
+        errorMessage = 'Service temporarily unavailable. Please try again later.';
+      }
+
+      toast.error(errorMessage);
       setIsSubmitting(false);
     }
   };
