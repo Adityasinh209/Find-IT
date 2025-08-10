@@ -161,12 +161,25 @@ const PostItem = React.memo(function PostItem() {
             </nav>
             <div className="flex items-center space-x-2">
               <ThemeToggle />
-              <Avatar className="h-8 w-8 cursor-pointer">
-                <AvatarImage src="" />
-                <AvatarFallback>
-                  <User className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8"
+                    }
+                  }}
+                />
+              </SignedIn>
+              <SignedOut>
+                <Link to="/sign-in">
+                  <Avatar className="h-8 w-8 cursor-pointer">
+                    <AvatarImage src="" />
+                    <AvatarFallback>
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Link>
+              </SignedOut>
             </div>
           </div>
         </div>
