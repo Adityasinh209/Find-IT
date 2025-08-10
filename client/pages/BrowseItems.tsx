@@ -52,20 +52,41 @@ export default function BrowseItems() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const filteredItems = allItems.filter(item => {
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.location.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
-    const matchesLocation = selectedLocation === 'All Locations' || 
-                           item.location.toLowerCase().includes(selectedLocation.toLowerCase());
-    const matchesStatus = selectedStatus === 'All Items' || 
-                         (selectedStatus === 'Lost Items' && item.status === 'lost') ||
-                         (selectedStatus === 'Found Items' && item.status === 'found');
-    
-    return matchesSearch && matchesCategory && matchesLocation && matchesStatus;
-  });
+  // Load all items from Firebase on component mount
+  useEffect(() => {
+    const loadAllItems = async () => {
+      try {
+        setLoading(true);
+        const items = await FirebaseService.getAllItems();
+        setAllItems(items);
+        setError(null);
+      } catch (err) {
+        console.error('Error loading items:', err);
+        setError('Failed to load items. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAllItems();
+  }, []);
+
+  const filteredItems = useMemo(() => {
+    return allItems.filter(item => {
+      const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                           item.location.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
+      const matchesLocation = selectedLocation === 'All Locations' ||
+                             item.location.toLowerCase().includes(selectedLocation.toLowerCase());
+      const matchesStatus = selectedStatus === 'All Items' ||
+                           (selectedStatus === 'Lost Items' && item.status === 'lost') ||
+                           (selectedStatus === 'Found Items' && item.status === 'found');
+
+      return matchesSearch && matchesCategory && matchesLocation && matchesStatus;
+    });
+  }, [allItems, searchQuery, selectedCategory, selectedLocation, selectedStatus]);
 
   const sortedItems = [...filteredItems].sort((a, b) => {
     switch (sortBy) {
