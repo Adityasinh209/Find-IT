@@ -225,57 +225,68 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredItems.slice(0, 6).map((item) => (
-              <Card key={item.id} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <div className="flex items-start justify-between mb-2">
-                    <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
-                    <Badge variant={item.status === 'lost' ? 'destructive' : 'default'}>
-                      {item.status === 'lost' ? 'Lost' : 'Found'}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground space-x-4">
-                    <div className="flex items-center space-x-1">
-                      <Tag className="w-4 h-4" />
-                      <span>{item.category}</span>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="text-muted-foreground mb-4">Loading recent items...</div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <div className="text-red-500 mb-4">{error}</div>
+              <Button onClick={() => window.location.reload()}>Try Again</Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredItems.slice(0, 6).map((item) => (
+                <Card key={item.id} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md bg-card/50 backdrop-blur-sm">
+                  <CardHeader>
+                    <div className="flex items-start justify-between mb-2">
+                      <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
+                      <Badge variant={item.status === 'lost' ? 'destructive' : 'default'}>
+                        {item.status === 'lost' ? 'Lost' : 'Found'}
+                      </Badge>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(item.dateReported).toLocaleDateString()}</span>
+                    <div className="flex items-center text-sm text-muted-foreground space-x-4">
+                      <div className="flex items-center space-x-1">
+                        <Tag className="w-4 h-4" />
+                        <span>{item.category}</span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{new Date(item.dateReported).toLocaleDateString()}</span>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="mb-4 line-clamp-3">
-                    {item.description}
-                  </CardDescription>
-                  <div className="flex items-center text-sm text-muted-foreground mb-4">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    <span>{item.location}</span>
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center text-sm">
-                      <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
-                      <a href={`mailto:${item.contactEmail}`} className="text-primary hover:underline">
-                        Contact via Email
-                      </a>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="mb-4 line-clamp-3">
+                      {item.description}
+                    </CardDescription>
+                    <div className="flex items-center text-sm text-muted-foreground mb-4">
+                      <MapPin className="w-4 h-4 mr-1" />
+                      <span>{item.location}</span>
                     </div>
-                    {item.contactPhone && (
+                    <div className="flex flex-col space-y-2">
                       <div className="flex items-center text-sm">
-                        <Phone className="w-4 h-4 mr-2 text-muted-foreground" />
-                        <a href={`tel:${item.contactPhone}`} className="text-primary hover:underline">
-                          {item.contactPhone}
+                        <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
+                        <a href={`mailto:${item.contactEmail}`} className="text-primary hover:underline">
+                          Contact via Email
                         </a>
                       </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                      {item.contactPhone && (
+                        <div className="flex items-center text-sm">
+                          <Phone className="w-4 h-4 mr-2 text-muted-foreground" />
+                          <a href={`tel:${item.contactPhone}`} className="text-primary hover:underline">
+                            {item.contactPhone}
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
-          {filteredItems.length === 0 && (
+          {!loading && !error && filteredItems.length === 0 && (
             <div className="text-center py-12">
               <div className="text-muted-foreground mb-4">No items found matching your search criteria.</div>
               <Button asChild>
