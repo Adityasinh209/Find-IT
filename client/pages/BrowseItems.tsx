@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AutocompleteSearch } from '@/components/AutocompleteSearch';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 // Extended mock data
 const allItems = [
