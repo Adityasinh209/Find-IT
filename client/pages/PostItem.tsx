@@ -117,23 +117,33 @@ const PostItem = React.memo(function PostItem() {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call with proper error handling
-      await new Promise((resolve, reject) => {
-        const timeout = setTimeout(resolve, 1500);
-        // Cleanup timeout if component unmounts
-        return () => clearTimeout(timeout);
-      });
+      // Prepare data for Firebase
+      const itemData = {
+        title: formData.title.trim(),
+        category: formData.category,
+        description: formData.description.trim(),
+        location: formData.location.trim(),
+        dateReported: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
+        status: formData.itemType as 'lost' | 'found',
+        contactEmail: formData.contactEmail.trim(),
+        contactPhone: formData.contactPhone.trim() || undefined,
+        contactName: formData.contactName.trim(),
+        userId: user?.id || undefined
+      };
 
-      // Redirect back to home page with success message
+      // Save to Firebase
+      const itemId = await FirebaseService.createItem(itemData);
+
+      // Show success message
+      toast.success(`${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!`);
+
+      // Redirect back to home page
       navigate('/', {
-        state: {
-          message: `${formData.itemType === 'lost' ? 'Lost' : 'Found'} item reported successfully!`
-        },
         replace: true // Use replace to prevent back button issues
       });
     } catch (error) {
       console.error('Failed to submit form:', error);
-      // In production, show user-friendly error message
+      toast.error('Failed to submit item. Please try again.');
       setIsSubmitting(false);
     }
   };
