@@ -227,12 +227,25 @@ export default function BrowseItems() {
                   <span>Report Item</span>
                 </Button>
               </Link>
-              <Avatar className="h-8 w-8 cursor-pointer">
-                <AvatarImage src="" />
-                <AvatarFallback>
-                  <User className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
+              <SignedIn>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8"
+                    }
+                  }}
+                />
+              </SignedIn>
+              <SignedOut>
+                <Link to="/sign-in">
+                  <Avatar className="h-8 w-8 cursor-pointer">
+                    <AvatarImage src="" />
+                    <AvatarFallback>
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Link>
+              </SignedOut>
             </div>
           </div>
         </div>
