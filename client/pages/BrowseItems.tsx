@@ -187,11 +187,11 @@ export default function BrowseItems() {
 
     // Cleanup listener on component unmount
     return () => {
-      if (unsubscribe && typeof unsubscribe === 'function') {
+      if (unsubscribe && typeof unsubscribe === "function") {
         try {
           unsubscribe();
         } catch (error) {
-          console.warn('Error cleaning up Firebase listener:', error);
+          console.warn("Error cleaning up Firebase listener:", error);
         }
       }
     };

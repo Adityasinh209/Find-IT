@@ -1,7 +1,13 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -22,7 +28,7 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    console.error("Error caught by boundary:", error, errorInfo);
   }
 
   handleReset = () => {
@@ -54,7 +60,11 @@ export class ErrorBoundary extends React.Component<
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Try Again
                 </Button>
-                <Button variant="outline" onClick={() => window.location.reload()} className="flex-1">
+                <Button
+                  variant="outline"
+                  onClick={() => window.location.reload()}
+                  className="flex-1"
+                >
                   Reload Page
                 </Button>
               </div>
