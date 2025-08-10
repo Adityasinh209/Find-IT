@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AutocompleteSearch } from '@/components/AutocompleteSearch';
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 // Mock data for recent items
 const recentItems = [
