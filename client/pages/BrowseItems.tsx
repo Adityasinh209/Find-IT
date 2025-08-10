@@ -52,16 +52,23 @@ export default function BrowseItems() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load all items from Firebase on component mount
+  // Load all items from Firebase on component mount with real-time listener
   useEffect(() => {
-    const loadAllItems = async () => {
+    let unsubscribe: (() => void) | null = null;
+
+    const setupFirebaseListener = () => {
       try {
         setLoading(true);
-        const items = await FirebaseService.getAllItems();
-        setAllItems(items);
-        setError(null);
+
+        // Set up real-time listener for immediate updates
+        unsubscribe = FirebaseService.subscribeToItems((items) => {
+          setAllItems(items);
+          setError(null);
+          setLoading(false);
+        });
+
       } catch (err) {
-        console.error('Error loading items:', err);
+        console.error('Error setting up Firebase listener:', err);
 
         // Fallback to mock data if Firebase isn't configured
         const mockItems: LostFoundItem[] = [
