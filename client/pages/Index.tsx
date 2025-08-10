@@ -56,7 +56,7 @@ const recentItems = [
     dateReported: "2024-01-12",
     status: "found",
     contactEmail: "lab.assistant@university.edu",
-    contactPhone: "(555) 234-5678"
+    contactPhone: "+91 65432 10987"
   }
 ];
 
