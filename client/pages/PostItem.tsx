@@ -11,6 +11,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { SignedIn, SignedOut, UserButton, useUser } from '@clerk/clerk-react';
+import { FirebaseService } from '@/services/firebaseService';
+import { toast } from 'sonner';
 
 const categories = [
   "Electronics",
