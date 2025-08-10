@@ -39,6 +39,7 @@ const commonLocations = [
 
 const PostItem = React.memo(function PostItem() {
   const navigate = useNavigate();
+  const { user } = useUser();
   const [formData, setFormData] = useState({
     itemType: 'lost', // 'lost' or 'found'
     title: '',
