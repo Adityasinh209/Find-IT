@@ -117,8 +117,8 @@ const PostItem = React.memo(function PostItem() {
     setIsSubmitting(true);
 
     try {
-      // Prepare data for Firebase
-      const itemData = {
+      // Prepare data for Firebase (filter out undefined values)
+      const itemData: any = {
         title: formData.title.trim(),
         category: formData.category,
         description: formData.description.trim(),
@@ -126,10 +126,18 @@ const PostItem = React.memo(function PostItem() {
         dateReported: new Date().toISOString().split('T')[0], // Current date in YYYY-MM-DD format
         status: formData.itemType as 'lost' | 'found',
         contactEmail: formData.contactEmail.trim(),
-        contactPhone: formData.contactPhone.trim() || undefined,
-        contactName: formData.contactName.trim(),
-        userId: user?.id || undefined
+        contactName: formData.contactName.trim()
       };
+
+      // Only add optional fields if they have values
+      const phoneNumber = formData.contactPhone.trim();
+      if (phoneNumber) {
+        itemData.contactPhone = phoneNumber;
+      }
+
+      if (user?.id) {
+        itemData.userId = user.id;
+      }
 
       // Save to Firebase
       const itemId = await FirebaseService.createItem(itemData);
