@@ -23,13 +23,8 @@ const queryClient = new QueryClient();
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
-// Check if we have a valid Clerk key (not the placeholder)
-const hasValidClerkKey = PUBLISHABLE_KEY &&
-  PUBLISHABLE_KEY !== 'pk_test_your-clerk-key-here' &&
-  PUBLISHABLE_KEY.startsWith('pk_')
-
-if (!hasValidClerkKey) {
-  console.warn("No valid Clerk key found. Running without authentication features.")
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
 }
 
 const App = () => {
