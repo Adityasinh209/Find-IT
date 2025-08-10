@@ -133,8 +133,12 @@ export default function Index() {
 
     // Cleanup listener on component unmount
     return () => {
-      if (unsubscribe) {
-        unsubscribe();
+      if (unsubscribe && typeof unsubscribe === 'function') {
+        try {
+          unsubscribe();
+        } catch (error) {
+          console.warn('Error cleaning up Firebase listener:', error);
+        }
       }
     };
   }, []);
