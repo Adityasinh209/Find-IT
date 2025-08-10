@@ -69,7 +69,7 @@ const allItems = [
     dateReported: "2024-01-11",
     status: "found",
     contactEmail: "security@university.edu",
-    contactPhone: "(555) 111-2222"
+    contactPhone: "+91 54321 09876"
   },
   {
     id: 6,
