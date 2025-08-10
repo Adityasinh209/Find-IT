@@ -6,7 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ClerkProvider } from '@clerk/clerk-react';
+import { ClerkProvider } from "@clerk/clerk-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import PostItem from "./pages/PostItem";
@@ -20,10 +20,10 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 const queryClient = new QueryClient();
 
 // Import your Publishable Key
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
-  throw new Error("Missing Publishable Key")
+  throw new Error("Missing Publishable Key");
 }
 
 const App = () => (
@@ -36,43 +36,55 @@ const App = () => (
       afterSignUpUrl="/"
     >
       <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
-      <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/post" element={
-            <ProtectedRoute>
-              <PostItem />
-            </ProtectedRoute>
-          } />
-          <Route path="/browse" element={<BrowseItems />} />
-          <Route path="/sign-in" element={<SignIn />} />
-          <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/admin" element={
-            <PlaceholderPage
-              title="Admin Portal"
-              description="Administrative tools for moderating posts and managing the Lost & Found system."
-            />
-          } />
-          <Route path="/my-items" element={
-            <PlaceholderPage
-              title="My Items"
-              description="Track your reported items and their status."
-            />
-          } />
-          <Route path="/help" element={
-            <PlaceholderPage
-              title="Help & Support"
-              description="Get help using the Lost & Found portal and contact support."
-            />
-          } />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-      </TooltipProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route
+                path="/post"
+                element={
+                  <ProtectedRoute>
+                    <PostItem />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/browse" element={<BrowseItems />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route
+                path="/admin"
+                element={
+                  <PlaceholderPage
+                    title="Admin Portal"
+                    description="Administrative tools for moderating posts and managing the Lost & Found system."
+                  />
+                }
+              />
+              <Route
+                path="/my-items"
+                element={
+                  <PlaceholderPage
+                    title="My Items"
+                    description="Track your reported items and their status."
+                  />
+                }
+              />
+              <Route
+                path="/help"
+                element={
+                  <PlaceholderPage
+                    title="Help & Support"
+                    description="Get help using the Lost & Found portal and contact support."
+                  />
+                }
+              />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
       </ThemeProvider>
     </ClerkProvider>
   </QueryClientProvider>

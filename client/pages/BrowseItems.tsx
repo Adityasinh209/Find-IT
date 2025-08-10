@@ -1,20 +1,49 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Search, Filter, MapPin, Calendar, Tag, Mail, Phone, SlidersHorizontal, User, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Checkbox } from '@/components/ui/checkbox';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { AutocompleteSearch } from '@/components/AutocompleteSearch';
-import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
-import { FirebaseService } from '@/services/firebaseService';
-import { LostFoundItem } from '@/types/database';
-
+import React, { useState, useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  Search,
+  Filter,
+  MapPin,
+  Calendar,
+  Tag,
+  Mail,
+  Phone,
+  SlidersHorizontal,
+  User,
+  Plus,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AutocompleteSearch } from "@/components/AutocompleteSearch";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { FirebaseService } from "@/services/firebaseService";
+import { LostFoundItem } from "@/types/database";
 
 const categories = [
   "All Categories",
@@ -26,7 +55,7 @@ const categories = [
   "Books",
   "Sports Equipment",
   "Jewelry",
-  "Other"
+  "Other",
 ];
 
 const locations = [
@@ -38,15 +67,15 @@ const locations = [
   "Engineering Building",
   "Dining Hall",
   "Campus Grounds",
-  "Other"
+  "Other",
 ];
 
 export default function BrowseItems() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [selectedLocation, setSelectedLocation] = useState('All Locations');
-  const [selectedStatus, setSelectedStatus] = useState('All Items');
-  const [sortBy, setSortBy] = useState('newest');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedLocation, setSelectedLocation] = useState("All Locations");
+  const [selectedStatus, setSelectedStatus] = useState("All Items");
+  const [sortBy, setSortBy] = useState("newest");
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [allItems, setAllItems] = useState<LostFoundItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,9 +95,8 @@ export default function BrowseItems() {
           setError(null);
           setLoading(false);
         });
-
       } catch (err) {
-        console.error('Error setting up Firebase listener:', err);
+        console.error("Error setting up Firebase listener:", err);
 
         // Fallback to mock data if Firebase isn't configured
         const mockItems: LostFoundItem[] = [
@@ -76,7 +104,8 @@ export default function BrowseItems() {
             id: "1",
             title: "iPhone 13 Pro - Blue",
             category: "Electronics",
-            description: "Lost my blue iPhone 13 Pro in the library study area on the 3rd floor. Has a clear case with university stickers.",
+            description:
+              "Lost my blue iPhone 13 Pro in the library study area on the 3rd floor. Has a clear case with university stickers.",
             location: "Main Library - 3rd Floor",
             dateReported: "2024-01-15",
             status: "lost",
@@ -84,13 +113,14 @@ export default function BrowseItems() {
             contactPhone: "+91 98765 43210",
             contactName: "John Doe",
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
           {
             id: "2",
             title: "Black North Face Backpack",
             category: "Bags",
-            description: "Black North Face backpack with laptop compartment. Contains textbooks and a water bottle.",
+            description:
+              "Black North Face backpack with laptop compartment. Contains textbooks and a water bottle.",
             location: "Student Union Building",
             dateReported: "2024-01-14",
             status: "lost",
@@ -98,13 +128,14 @@ export default function BrowseItems() {
             contactPhone: "+91 87654 32109",
             contactName: "Sarah Smith",
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
           {
             id: "3",
             title: "Silver Car Keys - Honda",
             category: "Keys",
-            description: "Honda car keys with blue keychain that says 'Class of 2024'. Lost somewhere near the gym.",
+            description:
+              "Honda car keys with blue keychain that says 'Class of 2024'. Lost somewhere near the gym.",
             location: "Recreation Center",
             dateReported: "2024-01-13",
             status: "lost",
@@ -112,13 +143,14 @@ export default function BrowseItems() {
             contactPhone: "+91 76543 21098",
             contactName: "Mike Wilson",
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
           {
             id: "4",
             title: "Red Water Bottle - Hydro Flask",
             category: "Personal Items",
-            description: "Red Hydro Flask water bottle with university logo sticker. Left in chemistry lab.",
+            description:
+              "Red Hydro Flask water bottle with university logo sticker. Left in chemistry lab.",
             location: "Science Building - Lab 201",
             dateReported: "2024-01-12",
             status: "found",
@@ -126,13 +158,14 @@ export default function BrowseItems() {
             contactPhone: "+91 65432 10987",
             contactName: "Lab Assistant",
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
           {
             id: "5",
             title: "MacBook Air 13-inch",
             category: "Electronics",
-            description: "Silver MacBook Air with various programming stickers. Found in engineering building computer lab.",
+            description:
+              "Silver MacBook Air with various programming stickers. Found in engineering building computer lab.",
             location: "Engineering Building - Room 105",
             dateReported: "2024-01-11",
             status: "found",
@@ -140,8 +173,8 @@ export default function BrowseItems() {
             contactPhone: "+91 54321 09876",
             contactName: "Security Team",
             createdAt: new Date(),
-            updatedAt: new Date()
-          }
+            updatedAt: new Date(),
+          },
         ];
 
         setAllItems(mockItems);
@@ -161,32 +194,51 @@ export default function BrowseItems() {
   }, []);
 
   const filteredItems = useMemo(() => {
-    return allItems.filter(item => {
-      const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           item.location.toLowerCase().includes(searchQuery.toLowerCase());
+    return allItems.filter((item) => {
+      const matchesSearch =
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.location.toLowerCase().includes(searchQuery.toLowerCase());
 
-      const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
-      const matchesLocation = selectedLocation === 'All Locations' ||
-                             item.location.toLowerCase().includes(selectedLocation.toLowerCase());
-      const matchesStatus = selectedStatus === 'All Items' ||
-                           (selectedStatus === 'Lost Items' && item.status === 'lost') ||
-                           (selectedStatus === 'Found Items' && item.status === 'found');
+      const matchesCategory =
+        selectedCategory === "All Categories" ||
+        item.category === selectedCategory;
+      const matchesLocation =
+        selectedLocation === "All Locations" ||
+        item.location.toLowerCase().includes(selectedLocation.toLowerCase());
+      const matchesStatus =
+        selectedStatus === "All Items" ||
+        (selectedStatus === "Lost Items" && item.status === "lost") ||
+        (selectedStatus === "Found Items" && item.status === "found");
 
-      return matchesSearch && matchesCategory && matchesLocation && matchesStatus;
+      return (
+        matchesSearch && matchesCategory && matchesLocation && matchesStatus
+      );
     });
-  }, [allItems, searchQuery, selectedCategory, selectedLocation, selectedStatus]);
+  }, [
+    allItems,
+    searchQuery,
+    selectedCategory,
+    selectedLocation,
+    selectedStatus,
+  ]);
 
   const sortedItems = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
       switch (sortBy) {
-        case 'oldest':
-          return new Date(a.dateReported).getTime() - new Date(b.dateReported).getTime();
-        case 'alphabetical':
+        case "oldest":
+          return (
+            new Date(a.dateReported).getTime() -
+            new Date(b.dateReported).getTime()
+          );
+        case "alphabetical":
           return a.title.localeCompare(b.title);
-        case 'newest':
+        case "newest":
         default:
-          return new Date(b.dateReported).getTime() - new Date(a.dateReported).getTime();
+          return (
+            new Date(b.dateReported).getTime() -
+            new Date(a.dateReported).getTime()
+          );
       }
     });
   }, [filteredItems, sortBy]);
@@ -195,27 +247,29 @@ export default function BrowseItems() {
   const searchSuggestions = useMemo(() => {
     const suggestions = new Set<string>();
 
-    allItems.forEach(item => {
+    allItems.forEach((item) => {
       suggestions.add(item.title);
       suggestions.add(item.category);
 
       // Add meaningful words from descriptions
-      const words = item.description.split(/\s+/)
-        .filter(word => word.length > 3)
-        .map(word => word.replace(/[^a-zA-Z0-9]/g, ''))
-        .filter(word => word.length > 3);
+      const words = item.description
+        .split(/\s+/)
+        .filter((word) => word.length > 3)
+        .map((word) => word.replace(/[^a-zA-Z0-9]/g, ""))
+        .filter((word) => word.length > 3);
 
-      words.forEach(word => suggestions.add(word));
+      words.forEach((word) => suggestions.add(word));
 
       // Add location parts
-      const locationParts = item.location.split(/[-,\s]+/)
-        .filter(part => part.length > 2);
+      const locationParts = item.location
+        .split(/[-,\s]+/)
+        .filter((part) => part.length > 2);
 
-      locationParts.forEach(part => suggestions.add(part.trim()));
+      locationParts.forEach((part) => suggestions.add(part.trim()));
     });
 
     return Array.from(suggestions)
-      .filter(suggestion => suggestion.length > 2)
+      .filter((suggestion) => suggestion.length > 2)
       .sort((a, b) => a.localeCompare(b));
   }, [allItems]);
 
@@ -230,17 +284,25 @@ export default function BrowseItems() {
                 <ArrowLeft className="w-5 h-5 text-primary-foreground" />
               </div>
             </Link>
-            <Link to="/" className="text-2xl font-bold text-primary">FindIt</Link>
+            <Link to="/" className="text-2xl font-bold text-primary">
+              FindIt
+            </Link>
           </div>
           <div className="flex items-center space-x-3">
             <nav className="hidden md:flex items-center space-x-6 text-sm">
               <Link to="/browse" className="text-foreground font-medium">
                 Browse Items
               </Link>
-              <Link to="/post" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/post"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Report Lost Item
               </Link>
-              <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/help"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 About
               </Link>
             </nav>
@@ -256,8 +318,8 @@ export default function BrowseItems() {
                 <UserButton
                   appearance={{
                     elements: {
-                      avatarBox: "h-8 w-8"
-                    }
+                      avatarBox: "h-8 w-8",
+                    },
                   }}
                 />
               </SignedIn>
@@ -288,12 +350,15 @@ export default function BrowseItems() {
                 placeholder="Search for items..."
                 className="max-w-none"
                 onSearch={() => {
-                  console.log('Browse search performed:', searchQuery);
+                  console.log("Browse search performed:", searchQuery);
                 }}
               />
             </div>
             <div className="flex flex-wrap gap-2">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+              >
                 <SelectTrigger className="w-48 h-12">
                   <SelectValue />
                 </SelectTrigger>
@@ -305,7 +370,7 @@ export default function BrowseItems() {
                   ))}
                 </SelectContent>
               </Select>
-              
+
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
                 <SelectTrigger className="w-40 h-12">
                   <SelectValue />
@@ -319,7 +384,10 @@ export default function BrowseItems() {
 
               <Sheet>
                 <SheetTrigger asChild>
-                  <Button variant="outline" className="h-12 flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    className="h-12 flex items-center space-x-2"
+                  >
                     <SlidersHorizontal className="w-4 h-4" />
                     <span>Filters</span>
                   </Button>
@@ -330,7 +398,9 @@ export default function BrowseItems() {
                   </SheetHeader>
                   <div className="py-6 space-y-6">
                     <div>
-                      <label className="text-sm font-medium mb-3 block">Sort By</label>
+                      <label className="text-sm font-medium mb-3 block">
+                        Sort By
+                      </label>
                       <Select value={sortBy} onValueChange={setSortBy}>
                         <SelectTrigger>
                           <SelectValue />
@@ -338,7 +408,9 @@ export default function BrowseItems() {
                         <SelectContent>
                           <SelectItem value="newest">Newest First</SelectItem>
                           <SelectItem value="oldest">Oldest First</SelectItem>
-                          <SelectItem value="alphabetical">Alphabetical</SelectItem>
+                          <SelectItem value="alphabetical">
+                            Alphabetical
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -351,7 +423,8 @@ export default function BrowseItems() {
           {/* Results Summary */}
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <span>
-              {sortedItems.length} item{sortedItems.length !== 1 ? 's' : ''} found
+              {sortedItems.length} item{sortedItems.length !== 1 ? "s" : ""}{" "}
+              found
             </span>
           </div>
         </div>
@@ -372,9 +445,15 @@ export default function BrowseItems() {
               <Card key={item.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
-                    <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
-                    <Badge variant={item.status === 'lost' ? 'destructive' : 'default'}>
-                      {item.status === 'lost' ? 'Lost' : 'Found'}
+                    <CardTitle className="text-lg font-semibold">
+                      {item.title}
+                    </CardTitle>
+                    <Badge
+                      variant={
+                        item.status === "lost" ? "destructive" : "default"
+                      }
+                    >
+                      {item.status === "lost" ? "Lost" : "Found"}
                     </Badge>
                   </div>
                   <div className="flex items-center text-sm text-muted-foreground space-x-4">
@@ -384,7 +463,9 @@ export default function BrowseItems() {
                     </div>
                     <div className="flex items-center space-x-1">
                       <Calendar className="w-4 h-4" />
-                      <span>{new Date(item.dateReported).toLocaleDateString()}</span>
+                      <span>
+                        {new Date(item.dateReported).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                 </CardHeader>
@@ -399,14 +480,20 @@ export default function BrowseItems() {
                   <div className="flex flex-col space-y-2">
                     <div className="flex items-center text-sm">
                       <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
-                      <a href={`mailto:${item.contactEmail}`} className="text-primary hover:underline">
+                      <a
+                        href={`mailto:${item.contactEmail}`}
+                        className="text-primary hover:underline"
+                      >
                         Contact via Email
                       </a>
                     </div>
                     {item.contactPhone && (
                       <div className="flex items-center text-sm">
                         <Phone className="w-4 h-4 mr-2 text-muted-foreground" />
-                        <a href={`tel:${item.contactPhone}`} className="text-primary hover:underline">
+                        <a
+                          href={`tel:${item.contactPhone}`}
+                          className="text-primary hover:underline"
+                        >
                           {item.contactPhone}
                         </a>
                       </div>
@@ -422,12 +509,15 @@ export default function BrowseItems() {
               No items found matching your search criteria.
             </div>
             <div className="space-x-4">
-              <Button variant="outline" onClick={() => {
-                setSearchQuery('');
-                setSelectedCategory('All Categories');
-                setSelectedLocation('All Locations');
-                setSelectedStatus('All Items');
-              }}>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchQuery("");
+                  setSelectedCategory("All Categories");
+                  setSelectedLocation("All Locations");
+                  setSelectedStatus("All Items");
+                }}
+              >
                 Clear Filters
               </Button>
               <Button asChild>

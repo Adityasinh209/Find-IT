@@ -1,18 +1,39 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Plus, MapPin, Calendar, Tag, Eye, Phone, Mail, User } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { AutocompleteSearch } from '@/components/AutocompleteSearch';
-import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
-import { FirebaseService } from '@/services/firebaseService';
-import { LostFoundItem } from '@/types/database';
-
+import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  Search,
+  Plus,
+  MapPin,
+  Calendar,
+  Tag,
+  Eye,
+  Phone,
+  Mail,
+  User,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AutocompleteSearch } from "@/components/AutocompleteSearch";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { FirebaseService } from "@/services/firebaseService";
+import { LostFoundItem } from "@/types/database";
 
 const categories = [
   "All Categories",
@@ -24,13 +45,13 @@ const categories = [
   "Books",
   "Sports Equipment",
   "Jewelry",
-  "Other"
+  "Other",
 ];
 
 export default function Index() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All Categories');
-  const [selectedStatus, setSelectedStatus] = useState('All Items');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  const [selectedStatus, setSelectedStatus] = useState("All Items");
   const [recentItems, setRecentItems] = useState<LostFoundItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,9 +71,8 @@ export default function Index() {
           setError(null);
           setLoading(false);
         });
-
       } catch (err) {
-        console.error('Error setting up Firebase listener:', err);
+        console.error("Error setting up Firebase listener:", err);
 
         // Fallback to mock data if Firebase isn't configured
         const mockItems: LostFoundItem[] = [
@@ -60,7 +80,8 @@ export default function Index() {
             id: "1",
             title: "iPhone 13 Pro - Blue",
             category: "Electronics",
-            description: "Lost my blue iPhone 13 Pro in the library study area on the 3rd floor. Has a clear case with university stickers.",
+            description:
+              "Lost my blue iPhone 13 Pro in the library study area on the 3rd floor. Has a clear case with university stickers.",
             location: "Main Library - 3rd Floor",
             dateReported: "2024-01-15",
             status: "lost",
@@ -68,13 +89,14 @@ export default function Index() {
             contactPhone: "+91 98765 43210",
             contactName: "John Doe",
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
           {
             id: "2",
             title: "Black North Face Backpack",
             category: "Bags",
-            description: "Black North Face backpack with laptop compartment. Contains textbooks and a water bottle.",
+            description:
+              "Black North Face backpack with laptop compartment. Contains textbooks and a water bottle.",
             location: "Student Union Building",
             dateReported: "2024-01-14",
             status: "lost",
@@ -82,13 +104,14 @@ export default function Index() {
             contactPhone: "+91 87654 32109",
             contactName: "Sarah Smith",
             createdAt: new Date(),
-            updatedAt: new Date()
+            updatedAt: new Date(),
           },
           {
             id: "3",
             title: "Red Water Bottle - Hydro Flask",
             category: "Personal Items",
-            description: "Red Hydro Flask water bottle with university logo sticker. Left in chemistry lab.",
+            description:
+              "Red Hydro Flask water bottle with university logo sticker. Left in chemistry lab.",
             location: "Science Building - Lab 201",
             dateReported: "2024-01-12",
             status: "found",
@@ -96,8 +119,8 @@ export default function Index() {
             contactPhone: "+91 65432 10987",
             contactName: "Lab Assistant",
             createdAt: new Date(),
-            updatedAt: new Date()
-          }
+            updatedAt: new Date(),
+          },
         ];
 
         setRecentItems(mockItems);
@@ -117,17 +140,21 @@ export default function Index() {
   }, []);
 
   const filteredItems = useMemo(() => {
-    return recentItems.filter(item => {
+    return recentItems.filter((item) => {
       const lowerSearchQuery = searchQuery.toLowerCase();
-      const matchesSearch = !searchQuery ||
-                           item.title.toLowerCase().includes(lowerSearchQuery) ||
-                           item.description.toLowerCase().includes(lowerSearchQuery) ||
-                           item.location.toLowerCase().includes(lowerSearchQuery);
+      const matchesSearch =
+        !searchQuery ||
+        item.title.toLowerCase().includes(lowerSearchQuery) ||
+        item.description.toLowerCase().includes(lowerSearchQuery) ||
+        item.location.toLowerCase().includes(lowerSearchQuery);
 
-      const matchesCategory = selectedCategory === 'All Categories' || item.category === selectedCategory;
-      const matchesStatus = selectedStatus === 'All Items' ||
-                           (selectedStatus === 'Lost Items' && item.status === 'lost') ||
-                           (selectedStatus === 'Found Items' && item.status === 'found');
+      const matchesCategory =
+        selectedCategory === "All Categories" ||
+        item.category === selectedCategory;
+      const matchesStatus =
+        selectedStatus === "All Items" ||
+        (selectedStatus === "Lost Items" && item.status === "lost") ||
+        (selectedStatus === "Found Items" && item.status === "found");
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
@@ -136,8 +163,11 @@ export default function Index() {
   // Calculate real stats from the actual data with memoization
   const stats = useMemo(() => {
     const totalItemsPosted = recentItems.length;
-    const itemsFound = recentItems.filter(item => item.status === 'found').length;
-    const activeUsers = new Set(recentItems.map(item => item.contactEmail)).size;
+    const itemsFound = recentItems.filter(
+      (item) => item.status === "found",
+    ).length;
+    const activeUsers = new Set(recentItems.map((item) => item.contactEmail))
+      .size;
 
     return { totalItemsPosted, itemsFound, activeUsers };
   }, [recentItems]);
@@ -146,7 +176,7 @@ export default function Index() {
   const searchSuggestions = useMemo(() => {
     const suggestions = new Set<string>();
 
-    recentItems.forEach(item => {
+    recentItems.forEach((item) => {
       // Add item titles
       suggestions.add(item.title);
 
@@ -154,24 +184,26 @@ export default function Index() {
       suggestions.add(item.category);
 
       // Add common words from descriptions (longer than 3 characters)
-      const words = item.description.split(/\s+/)
-        .filter(word => word.length > 3)
-        .map(word => word.replace(/[^a-zA-Z0-9]/g, ''))
-        .filter(word => word.length > 3);
+      const words = item.description
+        .split(/\s+/)
+        .filter((word) => word.length > 3)
+        .map((word) => word.replace(/[^a-zA-Z0-9]/g, ""))
+        .filter((word) => word.length > 3);
 
-      words.forEach(word => suggestions.add(word));
+      words.forEach((word) => suggestions.add(word));
 
       // Add location parts
-      const locationParts = item.location.split(/[-,\s]+/)
-        .filter(part => part.length > 2)
-        .map(part => part.trim());
+      const locationParts = item.location
+        .split(/[-,\s]+/)
+        .filter((part) => part.length > 2)
+        .map((part) => part.trim());
 
-      locationParts.forEach(part => suggestions.add(part));
+      locationParts.forEach((part) => suggestions.add(part));
     });
 
     // Convert to array and sort
     return Array.from(suggestions)
-      .filter(suggestion => suggestion.length > 2)
+      .filter((suggestion) => suggestion.length > 2)
       .sort((a, b) => a.localeCompare(b));
   }, [recentItems]);
 
@@ -188,10 +220,16 @@ export default function Index() {
           </div>
           <div className="flex items-center space-x-3">
             <nav className="hidden md:flex items-center space-x-6 text-sm">
-              <Link to="/browse" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/browse"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Browse Items
               </Link>
-              <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/help"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 About
               </Link>
             </nav>
@@ -201,8 +239,8 @@ export default function Index() {
                 <UserButton
                   appearance={{
                     elements: {
-                      avatarBox: "h-8 w-8"
-                    }
+                      avatarBox: "h-8 w-8",
+                    },
                   }}
                 />
               </SignedIn>
@@ -224,17 +262,21 @@ export default function Index() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-background to-muted/30 py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 id="hero-heading" className="text-5xl font-bold text-foreground mb-2">
+          <h2
+            id="hero-heading"
+            className="text-5xl font-bold text-foreground mb-2"
+          >
             Lost Something?
           </h2>
           <h3 className="text-5xl font-bold text-primary mb-6">
             We're Here for You
           </h3>
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Connect with your campus community to reunite lost items with their owners. Report
-            what you've lost or found, and help make our campus a better place.
+            Connect with your campus community to reunite lost items with their
+            owners. Report what you've lost or found, and help make our campus a
+            better place.
           </p>
-          
+
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
             <AutocompleteSearch
@@ -244,7 +286,7 @@ export default function Index() {
               placeholder="Search for lost items..."
               onSearch={() => {
                 // Optional: Add analytics or additional search logic here
-                console.log('Search performed:', searchQuery);
+                console.log("Search performed:", searchQuery);
               }}
             />
           </div>
@@ -252,13 +294,20 @@ export default function Index() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
             <Link to="/post">
-              <Button size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all"
+              >
                 <Plus className="w-5 h-5 mr-2" />
                 Report Lost Item
               </Button>
             </Link>
             <Link to="/browse">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto px-10 py-4 text-lg rounded-full h-14 shadow-lg hover:shadow-xl transition-all"
+              >
                 <Search className="w-5 h-5 mr-2" />
                 Browse All Items
               </Button>
@@ -271,21 +320,27 @@ export default function Index() {
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Plus className="w-8 h-8 text-blue-600 dark:text-blue-400" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{stats.totalItemsPosted}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                {stats.totalItemsPosted}
+              </div>
               <div className="text-muted-foreground text-sm">Items Posted</div>
             </div>
             <div className="text-center mr-1">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <Search className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{stats.itemsFound}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                {stats.itemsFound}
+              </div>
               <div className="text-muted-foreground text-sm">Items Found</div>
             </div>
             <div className="text-center hidden">
               <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <User className="w-8 h-8 text-purple-600 dark:text-purple-400" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{stats.activeUsers}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                {stats.activeUsers}
+              </div>
               <div className="text-muted-foreground text-sm">Active Users</div>
             </div>
           </div>
@@ -296,30 +351,46 @@ export default function Index() {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-foreground mb-4">Recent Reports</h3>
+            <h3 className="text-3xl font-bold text-foreground mb-4">
+              Recent Reports
+            </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              See what's been recently reported on campus. Your lost item might already be here!
+              See what's been recently reported on campus. Your lost item might
+              already be here!
             </p>
           </div>
 
           {loading ? (
             <div className="text-center py-12">
-              <div className="text-muted-foreground mb-4">Loading recent items...</div>
+              <div className="text-muted-foreground mb-4">
+                Loading recent items...
+              </div>
             </div>
           ) : error ? (
             <div className="text-center py-12">
               <div className="text-red-500 mb-4">{error}</div>
-              <Button onClick={() => window.location.reload()}>Try Again</Button>
+              <Button onClick={() => window.location.reload()}>
+                Try Again
+              </Button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredItems.slice(0, 6).map((item) => (
-                <Card key={item.id} className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md bg-card/50 backdrop-blur-sm">
+                <Card
+                  key={item.id}
+                  className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md bg-card/50 backdrop-blur-sm"
+                >
                   <CardHeader>
                     <div className="flex items-start justify-between mb-2">
-                      <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
-                      <Badge variant={item.status === 'lost' ? 'destructive' : 'default'}>
-                        {item.status === 'lost' ? 'Lost' : 'Found'}
+                      <CardTitle className="text-lg font-semibold">
+                        {item.title}
+                      </CardTitle>
+                      <Badge
+                        variant={
+                          item.status === "lost" ? "destructive" : "default"
+                        }
+                      >
+                        {item.status === "lost" ? "Lost" : "Found"}
                       </Badge>
                     </div>
                     <div className="flex items-center text-sm text-muted-foreground space-x-4">
@@ -329,7 +400,9 @@ export default function Index() {
                       </div>
                       <div className="flex items-center space-x-1">
                         <Calendar className="w-4 h-4" />
-                        <span>{new Date(item.dateReported).toLocaleDateString()}</span>
+                        <span>
+                          {new Date(item.dateReported).toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
                   </CardHeader>
@@ -344,14 +417,20 @@ export default function Index() {
                     <div className="flex flex-col space-y-2">
                       <div className="flex items-center text-sm">
                         <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
-                        <a href={`mailto:${item.contactEmail}`} className="text-primary hover:underline">
+                        <a
+                          href={`mailto:${item.contactEmail}`}
+                          className="text-primary hover:underline"
+                        >
                           Contact via Email
                         </a>
                       </div>
                       {item.contactPhone && (
                         <div className="flex items-center text-sm">
                           <Phone className="w-4 h-4 mr-2 text-muted-foreground" />
-                          <a href={`tel:${item.contactPhone}`} className="text-primary hover:underline">
+                          <a
+                            href={`tel:${item.contactPhone}`}
+                            className="text-primary hover:underline"
+                          >
                             {item.contactPhone}
                           </a>
                         </div>
@@ -365,7 +444,9 @@ export default function Index() {
 
           {!loading && !error && filteredItems.length === 0 && (
             <div className="text-center py-12">
-              <div className="text-muted-foreground mb-4">No items found matching your search criteria.</div>
+              <div className="text-muted-foreground mb-4">
+                No items found matching your search criteria.
+              </div>
               <Button asChild>
                 <Link to="/post">Report a Lost Item</Link>
               </Button>
@@ -377,7 +458,9 @@ export default function Index() {
       {/* How It Works */}
       <section className="bg-muted py-16">
         <div className="container mx-auto px-4">
-          <h3 className="text-2xl font-bold text-center text-foreground mb-12">How It Works</h3>
+          <h3 className="text-2xl font-bold text-center text-foreground mb-12">
+            How It Works
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
@@ -385,7 +468,8 @@ export default function Index() {
               </div>
               <h4 className="text-lg font-semibold mb-2">1. Report an Item</h4>
               <p className="text-muted-foreground">
-                Lost something? Found something? Create a detailed report with photos and location details.
+                Lost something? Found something? Create a detailed report with
+                photos and location details.
               </p>
             </div>
             <div className="text-center">
@@ -394,16 +478,20 @@ export default function Index() {
               </div>
               <h4 className="text-lg font-semibold mb-2">2. Search & Browse</h4>
               <p className="text-muted-foreground">
-                Browse through reported items or use our search filters to find exactly what you're looking for.
+                Browse through reported items or use our search filters to find
+                exactly what you're looking for.
               </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Phone className="w-8 h-8 text-primary-foreground" />
               </div>
-              <h4 className="text-lg font-semibold mb-2">3. Connect & Recover</h4>
+              <h4 className="text-lg font-semibold mb-2">
+                3. Connect & Recover
+              </h4>
               <p className="text-muted-foreground">
-                Found a match? Contact the owner directly through the provided contact information.
+                Found a match? Contact the owner directly through the provided
+                contact information.
               </p>
             </div>
           </div>
@@ -423,13 +511,22 @@ export default function Index() {
             <div>
               <h5 className="font-semibold mb-3">Quick Links</h5>
               <div className="space-y-2">
-                <Link to="/browse" className="block text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  to="/browse"
+                  className="block text-sm text-muted-foreground hover:text-foreground"
+                >
                   Browse Items
                 </Link>
-                <Link to="/post" className="block text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  to="/post"
+                  className="block text-sm text-muted-foreground hover:text-foreground"
+                >
                   Report Item
                 </Link>
-                <Link to="/help" className="block text-sm text-muted-foreground hover:text-foreground">
+                <Link
+                  to="/help"
+                  className="block text-sm text-muted-foreground hover:text-foreground"
+                >
                   Help & Support
                 </Link>
               </div>
@@ -437,23 +534,34 @@ export default function Index() {
             <div>
               <h5 className="font-semibold mb-3">Features</h5>
               <div className="space-y-2">
-                <div className="text-sm text-muted-foreground">Smart Search</div>
-                <div className="text-sm text-muted-foreground">Real-time Updates</div>
-                <div className="text-sm text-muted-foreground">Safe & Secure</div>
+                <div className="text-sm text-muted-foreground">
+                  Smart Search
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Real-time Updates
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Safe & Secure
+                </div>
               </div>
             </div>
             <div>
               <h5 className="font-semibold mb-3">Support</h5>
               <div className="space-y-2">
                 <div className="text-sm text-muted-foreground">Contact Us</div>
-                <div className="text-sm text-muted-foreground">Privacy Policy</div>
-                <div className="text-sm text-muted-foreground">Terms of Service</div>
+                <div className="text-sm text-muted-foreground">
+                  Privacy Policy
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  Terms of Service
+                </div>
               </div>
             </div>
           </div>
           <div className="border-t pt-8 text-center">
             <p className="text-sm text-muted-foreground">
-              © 2024 FindIt. All rights reserved. Helping students reconnect with their belongings.
+              © 2024 FindIt. All rights reserved. Helping students reconnect
+              with their belongings.
             </p>
           </div>
         </div>

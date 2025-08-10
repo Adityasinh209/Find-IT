@@ -27,11 +27,13 @@ service cloud.firestore {
 6. Click **Publish** to save the rules
 
 ## What these rules do:
+
 - **Read access**: Anyone can browse and search items (public access)
 - **Write access**: Only authenticated users can create/update/delete items
 - **Security**: Prevents unauthorized modifications while allowing public browsing
 
 ## Current Status:
+
 - ✅ Firebase configuration is properly set
 - ✅ Real-time listeners are active
 - ⚠️ **Security rules need to be configured** (do this now!)

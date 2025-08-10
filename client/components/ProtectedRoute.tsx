@@ -1,12 +1,12 @@
-import { useAuth } from '@clerk/clerk-react'
-import { Navigate } from 'react-router-dom'
+import { useAuth } from "@clerk/clerk-react";
+import { Navigate } from "react-router-dom";
 
 interface ProtectedRouteProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isSignedIn, isLoaded } = useAuth()
+  const { isSignedIn, isLoaded } = useAuth();
 
   // Wait for auth to load
   if (!isLoaded) {
@@ -17,13 +17,13 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
           <p className="mt-4 text-muted-foreground">Loading...</p>
         </div>
       </div>
-    )
+    );
   }
 
   // Redirect to sign-in if not authenticated
   if (!isSignedIn) {
-    return <Navigate to="/sign-in" replace />
+    return <Navigate to="/sign-in" replace />;
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 }
