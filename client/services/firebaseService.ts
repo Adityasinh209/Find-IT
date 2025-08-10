@@ -21,12 +21,27 @@ const COLLECTION_NAME = 'lostFoundItems';
 
 export class FirebaseService {
   
+  // Helper function to remove undefined values
+  private static removeUndefinedValues(obj: any): any {
+    const cleaned: any = {};
+    Object.keys(obj).forEach(key => {
+      if (obj[key] !== undefined) {
+        cleaned[key] = obj[key];
+      }
+    });
+    return cleaned;
+  }
+
   // Create a new item
   static async createItem(itemData: Omit<LostFoundItem, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> {
     try {
       const now = new Date();
+
+      // Remove any undefined values to prevent Firebase errors
+      const cleanedData = this.removeUndefinedValues(itemData);
+
       const docRef = await addDoc(collection(db, COLLECTION_NAME), {
-        ...itemData,
+        ...cleanedData,
         createdAt: Timestamp.fromDate(now),
         updatedAt: Timestamp.fromDate(now)
       });
