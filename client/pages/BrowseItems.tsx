@@ -88,17 +88,19 @@ export default function BrowseItems() {
     });
   }, [allItems, searchQuery, selectedCategory, selectedLocation, selectedStatus]);
 
-  const sortedItems = [...filteredItems].sort((a, b) => {
-    switch (sortBy) {
-      case 'oldest':
-        return new Date(a.dateReported).getTime() - new Date(b.dateReported).getTime();
-      case 'alphabetical':
-        return a.title.localeCompare(b.title);
-      case 'newest':
-      default:
-        return new Date(b.dateReported).getTime() - new Date(a.dateReported).getTime();
-    }
-  });
+  const sortedItems = useMemo(() => {
+    return [...filteredItems].sort((a, b) => {
+      switch (sortBy) {
+        case 'oldest':
+          return new Date(a.dateReported).getTime() - new Date(b.dateReported).getTime();
+        case 'alphabetical':
+          return a.title.localeCompare(b.title);
+        case 'newest':
+        default:
+          return new Date(b.dateReported).getTime() - new Date(a.dateReported).getTime();
+      }
+    });
+  }, [filteredItems, sortBy]);
 
   // Extract search suggestions from existing data
   const searchSuggestions = React.useMemo(() => {
