@@ -305,22 +305,6 @@ export default function BrowseItems() {
                   </SheetHeader>
                   <div className="py-6 space-y-6">
                     <div>
-                      <label className="text-sm font-medium mb-3 block">Location</label>
-                      <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {locations.map((location) => (
-                            <SelectItem key={location} value={location}>
-                              {location}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div>
                       <label className="text-sm font-medium mb-3 block">Sort By</label>
                       <Select value={sortBy} onValueChange={setSortBy}>
                         <SelectTrigger>
@@ -344,16 +328,6 @@ export default function BrowseItems() {
             <span>
               {sortedItems.length} item{sortedItems.length !== 1 ? 's' : ''} found
             </span>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-32 h-8">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest</SelectItem>
-                <SelectItem value="oldest">Oldest</SelectItem>
-                <SelectItem value="alphabetical">A-Z</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </div>
 
