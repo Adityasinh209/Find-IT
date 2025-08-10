@@ -35,16 +35,24 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load recent items from Firebase on component mount
+  // Load recent items from Firebase on component mount with real-time updates
   useEffect(() => {
-    const loadRecentItems = async () => {
+    let unsubscribe: (() => void) | null = null;
+
+    const setupFirebaseListener = () => {
       try {
         setLoading(true);
-        const items = await FirebaseService.getRecentItems(6);
-        setRecentItems(items);
-        setError(null);
+
+        // Set up real-time listener for immediate updates
+        unsubscribe = FirebaseService.subscribeToItems((items) => {
+          // Take only the first 6 items for recent items display
+          setRecentItems(items.slice(0, 6));
+          setError(null);
+          setLoading(false);
+        });
+
       } catch (err) {
-        console.error('Error loading recent items:', err);
+        console.error('Error setting up Firebase listener:', err);
 
         // Fallback to mock data if Firebase isn't configured
         const mockItems: LostFoundItem[] = [
