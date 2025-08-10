@@ -48,6 +48,9 @@ export default function BrowseItems() {
   const [selectedStatus, setSelectedStatus] = useState('All Items');
   const [sortBy, setSortBy] = useState('newest');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [allItems, setAllItems] = useState<LostFoundItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const filteredItems = allItems.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
