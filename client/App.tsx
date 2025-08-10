@@ -27,72 +27,56 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key")
 }
 
-const App = () => {
-  const AppContent = () => (
-    <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <ClerkProvider
+      publishableKey={PUBLISHABLE_KEY}
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      afterSignInUrl="/"
+      afterSignUpUrl="/"
+    >
+      <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/post" element={
-              hasValidClerkKey ? (
-                <ProtectedRoute>
-                  <PostItem />
-                </ProtectedRoute>
-              ) : (
-                <PostItem />
-              )
-            } />
-            <Route path="/browse" element={<BrowseItems />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/admin" element={
-              <PlaceholderPage
-                title="Admin Portal"
-                description="Administrative tools for moderating posts and managing the Lost & Found system."
-              />
-            } />
-            <Route path="/my-items" element={
-              <PlaceholderPage
-                title="My Items"
-                description="Track your reported items and their status."
-              />
-            } />
-            <Route path="/help" element={
-              <PlaceholderPage
-                title="Help & Support"
-                description="Get help using the Lost & Found portal and contact support."
-              />
-            } />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/post" element={
+            <ProtectedRoute>
+              <PostItem />
+            </ProtectedRoute>
+          } />
+          <Route path="/browse" element={<BrowseItems />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/admin" element={
+            <PlaceholderPage
+              title="Admin Portal"
+              description="Administrative tools for moderating posts and managing the Lost & Found system."
+            />
+          } />
+          <Route path="/my-items" element={
+            <PlaceholderPage
+              title="My Items"
+              description="Track your reported items and their status."
+            />
+          } />
+          <Route path="/help" element={
+            <PlaceholderPage
+              title="Help & Support"
+              description="Get help using the Lost & Found portal and contact support."
+            />
+          } />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
       </TooltipProvider>
-    </ThemeProvider>
-  );
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {hasValidClerkKey ? (
-        <ClerkProvider
-          publishableKey={PUBLISHABLE_KEY}
-          signInUrl="/sign-in"
-          signUpUrl="/sign-up"
-          afterSignInUrl="/"
-          afterSignUpUrl="/"
-        >
-          <AppContent />
-        </ClerkProvider>
-      ) : (
-        <FallbackAuthProvider>
-          <AppContent />
-        </FallbackAuthProvider>
-      )}
-    </QueryClientProvider>
-  );
-};
+      </ThemeProvider>
+    </ClerkProvider>
+  </QueryClientProvider>
+);
 
 createRoot(document.getElementById("root")!).render(<App />);
