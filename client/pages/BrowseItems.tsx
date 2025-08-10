@@ -268,7 +268,16 @@ export default function BrowseItems() {
         </div>
 
         {/* Items Grid */}
-        {sortedItems.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="text-muted-foreground mb-4">Loading items...</div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="text-red-500 mb-4">{error}</div>
+            <Button onClick={() => window.location.reload()}>Try Again</Button>
+          </div>
+        ) : sortedItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sortedItems.map((item) => (
               <Card key={item.id} className="hover:shadow-lg transition-shadow">
