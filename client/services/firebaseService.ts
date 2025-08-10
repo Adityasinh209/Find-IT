@@ -167,8 +167,12 @@ export class FirebaseService {
   static async updateItem(itemId: string, updates: Partial<LostFoundItem>): Promise<void> {
     try {
       const itemRef = doc(db, COLLECTION_NAME, itemId);
+
+      // Remove any undefined values to prevent Firebase errors
+      const cleanedUpdates = this.removeUndefinedValues(updates);
+
       await updateDoc(itemRef, {
-        ...updates,
+        ...cleanedUpdates,
         updatedAt: Timestamp.fromDate(new Date())
       });
       console.log('Item updated successfully');
