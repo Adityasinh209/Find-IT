@@ -31,6 +31,9 @@ export default function Index() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedStatus, setSelectedStatus] = useState('All Items');
+  const [recentItems, setRecentItems] = useState<LostFoundItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const filteredItems = useMemo(() => {
     return recentItems.filter(item => {
