@@ -38,17 +38,6 @@ import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
 import { toast } from "sonner";
 
-const categories = [
-  "Electronics",
-  "Bags",
-  "Keys",
-  "Personal Items",
-  "Clothing",
-  "Books",
-  "Sports Equipment",
-  "Jewelry",
-  "Other",
-];
 
 const commonLocations = [
   "Main Library",
