@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { LostFoundItem } from "@/types/database";
+import { handleFirebaseError, logError } from "@/utils/errorHandler";
 
 const COLLECTION_NAME = "lostFoundItems";
 
