@@ -18,9 +18,6 @@ import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
-// Validate environment variables before app initialization
-validateEnvironment();
-
 const queryClient = new QueryClient();
 
 // Import your Publishable Key
