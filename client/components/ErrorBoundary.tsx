@@ -7,7 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AlertTriangle, RefreshCw } from "lucide-react";
+import { AlertTriangle, RefreshCw, Wifi } from "lucide-react";
+import { AuthFallback } from "./auth-fallback";
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -37,6 +38,16 @@ export class ErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
+      // Check if this is an authentication-related error
+      const error = this.state.error;
+      const isAuthError = error?.message?.includes("fetch") ||
+                         error?.message?.includes("clerk") ||
+                         error?.stack?.includes("clerk");
+
+      if (isAuthError) {
+        return <AuthFallback error={error} onRetry={this.handleReset} />;
+      }
+
       return (
         <div className="min-h-screen bg-background flex items-center justify-center p-4">
           <Card className="w-full max-w-md">
