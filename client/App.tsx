@@ -36,6 +36,14 @@ const App = () => (
         signUpUrl="/sign-up"
         afterSignInUrl="/"
         afterSignUpUrl="/"
+        appearance={{
+          elements: {
+            rootBox: "h-full"
+          }
+        }}
+        onError={(error) => {
+          console.error("Clerk authentication error:", error);
+        }}
       >
         <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
           <TooltipProvider>
