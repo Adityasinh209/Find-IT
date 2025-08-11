@@ -298,10 +298,10 @@ const PostItem = React.memo(function PostItem() {
         <Card className="shadow-lg">
           <CardHeader className="text-center pb-8">
             <CardTitle className="text-3xl font-bold mb-2">
-              Report an Item
+              Report Lost Item
             </CardTitle>
             <CardDescription className="text-lg">
-              Help us help you! Provide as much detail as possible to increase
+              Help us help you find your lost item! Provide as much detail as possible to increase
               the chances of recovery.
             </CardDescription>
           </CardHeader>
@@ -309,7 +309,7 @@ const PostItem = React.memo(function PostItem() {
             <form
               onSubmit={handleSubmit}
               className="space-y-6"
-              aria-label="Report lost or found item"
+              aria-label="Report lost item"
             >
               {/* Item Type - Only Lost Items */}
               <div className="space-y-3">
@@ -581,7 +581,7 @@ const PostItem = React.memo(function PostItem() {
                 >
                   {isSubmitting
                     ? "Submitting..."
-                    : `Report ${formData.itemType === "lost" ? "Lost" : "Found"} Item`}
+                    : "Report Lost Item"}
                 </Button>
                 <div id="submit-status" aria-live="polite" className="sr-only">
                   {isSubmitting ? "Form is being submitted" : ""}
