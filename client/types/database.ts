@@ -5,7 +5,7 @@ export interface LostFoundItem {
   description: string;
   location: string;
   dateReported: string;
-  status: 'lost' | 'found';
+  status: "lost" | "found";
   contactEmail: string;
   contactPhone?: string;
   contactName: string;
@@ -22,5 +22,5 @@ export interface User {
   createdAt: Date;
 }
 
-export type ItemStatus = 'lost' | 'found';
-export type ItemCategory = 'Electronics' | 'Bags' | 'Keys' | 'Personal Items' | 'Clothing' | 'Books' | 'Sports Equipment' | 'Jewelry' | 'Other';
+export type ItemStatus = "lost" | "found";
+export type ItemCategory = "Electronics" | "Bags" | "Keys" | "Personal Items" | "Clothing" | "Books" | "Sports Equipment" | "Jewelry" | "Other";
