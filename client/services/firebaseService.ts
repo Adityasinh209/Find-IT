@@ -41,7 +41,7 @@ export class FirebaseService {
       // Remove any undefined values to prevent Firebase errors
       const cleanedData = this.removeUndefinedValues(itemData);
 
-      const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+      const docRef = await addDoc(collection(db, APP_CONFIG.collectionName), {
         ...cleanedData,
         createdAt: Timestamp.fromDate(now),
         updatedAt: Timestamp.fromDate(now),
