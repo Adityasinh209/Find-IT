@@ -1,44 +1,31 @@
 import { useCallback } from "react";
+import { ENV } from "@/utils/constants";
 
-// Custom hook for analytics tracking
+// Lightweight analytics tracking hook
 export const useAnalytics = () => {
   const trackEvent = useCallback(
     (eventName: string, properties?: Record<string, any>) => {
-      // In production, integrate with analytics service like Google Analytics, Mixpanel, etc.
-      console.log("Analytics Event:", { eventName, properties });
-      
-      // Example: gtag('event', eventName, properties);
-      // Example: mixpanel.track(eventName, properties);
+      if (ENV.isDevelopment) {
+        console.log("📊 Analytics:", { eventName, properties });
+      }
+      // In production, integrate with analytics service
+      // gtag?.('event', eventName, properties);
     },
     [],
   );
 
-  const trackPageView = useCallback((pageName: string) => {
-    trackEvent("page_view", { page: pageName });
-  }, [trackEvent]);
-
   const trackItemSubmission = useCallback(
     (itemType: "lost" | "found", category: string) => {
-      trackEvent("item_submitted", { 
-        item_type: itemType, 
-        category,
-        timestamp: new Date().toISOString()
-      });
+      trackEvent("item_submitted", { item_type: itemType, category });
     },
     [trackEvent],
   );
 
   const trackSearch = useCallback((searchTerm: string) => {
-    trackEvent("search_performed", { 
-      search_term: searchTerm,
-      timestamp: new Date().toISOString()
-    });
+    if (searchTerm.length > 2) { // Only track meaningful searches
+      trackEvent("search_performed", { search_term: searchTerm });
+    }
   }, [trackEvent]);
 
-  return {
-    trackEvent,
-    trackPageView,
-    trackItemSubmission,
-    trackSearch,
-  };
+  return { trackEvent, trackItemSubmission, trackSearch };
 };
