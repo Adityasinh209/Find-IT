@@ -42,7 +42,8 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
 }
 
-const App = () => (
+function App() {
+  return (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <ClerkProvider
@@ -111,6 +112,7 @@ const App = () => (
       </ClerkProvider>
     </QueryClientProvider>
   </ErrorBoundary>
-);
+  );
+}
 
 createRoot(document.getElementById("root")!).render(<App />);
