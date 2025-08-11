@@ -172,34 +172,36 @@ export default function Index() {
     return { totalItemsPosted, itemsFound, activeUsers };
   }, [recentItems]);
 
-  // Extract search suggestions from existing data
+  // Extract search suggestions from existing data - only from lost items on main page
   const searchSuggestions = useMemo(() => {
     const suggestions = new Set<string>();
 
-    recentItems.forEach((item) => {
-      // Add item titles
-      suggestions.add(item.title);
+    recentItems
+      .filter((item) => item.status === "lost") // Only suggest from lost items on main page
+      .forEach((item) => {
+        // Add item titles
+        suggestions.add(item.title);
 
-      // Add categories
-      suggestions.add(item.category);
+        // Add categories
+        suggestions.add(item.category);
 
-      // Add common words from descriptions (longer than 3 characters)
-      const words = item.description
-        .split(/\s+/)
-        .filter((word) => word.length > 3)
-        .map((word) => word.replace(/[^a-zA-Z0-9]/g, ""))
-        .filter((word) => word.length > 3);
+        // Add common words from descriptions (longer than 3 characters)
+        const words = item.description
+          .split(/\s+/)
+          .filter((word) => word.length > 3)
+          .map((word) => word.replace(/[^a-zA-Z0-9]/g, ""))
+          .filter((word) => word.length > 3);
 
-      words.forEach((word) => suggestions.add(word));
+        words.forEach((word) => suggestions.add(word));
 
-      // Add location parts
-      const locationParts = item.location
-        .split(/[-,\s]+/)
-        .filter((part) => part.length > 2)
-        .map((part) => part.trim());
+        // Add location parts
+        const locationParts = item.location
+          .split(/[-,\s]+/)
+          .filter((part) => part.length > 2)
+          .map((part) => part.trim());
 
-      locationParts.forEach((part) => suggestions.add(part));
-    });
+        locationParts.forEach((part) => suggestions.add(part));
+      });
 
     // Convert to array and sort
     return Array.from(suggestions)
