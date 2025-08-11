@@ -80,7 +80,7 @@ export class FirebaseService {
     callback: (items: LostFoundItem[]) => void,
   ): () => void {
     const q = query(
-      collection(db, COLLECTION_NAME),
+      collection(db, APP_CONFIG.collectionName),
       orderBy("createdAt", "desc"),
     );
 
