@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
-  Upload,
   Calendar,
   MapPin,
   User,
@@ -65,11 +64,9 @@ const PostItem = React.memo(function PostItem() {
     contactName: "",
     contactEmail: "",
     contactPhone: "",
-    image: null as File | null,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
   // Auto-fill contact information from Clerk user data
   useEffect(() => {
@@ -108,52 +105,6 @@ const PostItem = React.memo(function PostItem() {
     setFormData((prev) => ({ ...prev, [field]: truncatedValue }));
   }, []);
 
-  const handleImageUpload = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        // Security validations
-        const maxSize = 10 * 1024 * 1024; // 10MB
-        const allowedTypes = [
-          "image/jpeg",
-          "image/jpg",
-          "image/png",
-          "image/gif",
-          "image/webp",
-        ];
-
-        if (file.size > maxSize) {
-          alert("File size too large. Please select an image under 10MB.");
-          e.target.value = ""; // Clear the input
-          return;
-        }
-
-        if (!allowedTypes.includes(file.type)) {
-          alert(
-            "Invalid file type. Please select a valid image file (JPEG, PNG, GIF, WebP).",
-          );
-          e.target.value = ""; // Clear the input
-          return;
-        }
-
-        setFormData((prev) => ({ ...prev, image: file }));
-
-        // Create preview URL for the image
-        const previewUrl = URL.createObjectURL(file);
-        setImagePreviewUrl(previewUrl);
-      }
-    },
-    [],
-  );
-
-  // Clean up the image preview URL when component unmounts or image changes
-  React.useEffect(() => {
-    return () => {
-      if (imagePreviewUrl) {
-        URL.revokeObjectURL(imagePreviewUrl);
-      }
-    };
-  }, [imagePreviewUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -429,75 +380,6 @@ const PostItem = React.memo(function PostItem() {
                 </p>
               </div>
 
-              {/* Image Upload */}
-              <div className="space-y-2">
-                <Label htmlFor="image" className="flex items-center space-x-2">
-                  <Upload className="w-4 h-4" />
-                  <span>Photo (Optional)</span>
-                </Label>
-                <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                  <input
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-
-                  {!formData.image ? (
-                    <label htmlFor="image" className="cursor-pointer">
-                      <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">
-                        Click to upload a photo or drag and drop
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        PNG, JPG, GIF up to 10MB
-                      </p>
-                    </label>
-                  ) : (
-                    <div className="space-y-3">
-                      {/* Image Preview */}
-                      {imagePreviewUrl && (
-                        <div className="relative">
-                          <img
-                            src={imagePreviewUrl}
-                            alt="Preview of uploaded item"
-                            className="mx-auto max-h-48 max-w-full rounded-lg object-cover shadow-md"
-                          />
-                        </div>
-                      )}
-
-                      {/* File Info */}
-                      <p className="text-sm text-primary font-medium">
-                        Selected: {formData.image.name}
-                      </p>
-
-                      {/* Change Image Button */}
-                      <div className="flex justify-center space-x-2">
-                        <label htmlFor="image" className="cursor-pointer">
-                          <Button type="button" variant="outline" size="sm">
-                            Change Image
-                          </Button>
-                        </label>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => {
-                            setFormData(prev => ({ ...prev, image: null }));
-                            setImagePreviewUrl(null);
-                            // Reset file input
-                            const fileInput = document.getElementById('image') as HTMLInputElement;
-                            if (fileInput) fileInput.value = '';
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
 
               {/* Contact Information */}
               <div className="space-y-4">
