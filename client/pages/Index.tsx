@@ -34,6 +34,7 @@ import { AutocompleteSearch } from "@/components/AutocompleteSearch";
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
+import { CATEGORIES } from "@/utils/constants";
 
 const categories = [
   "All Categories",
