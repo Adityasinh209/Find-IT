@@ -515,6 +515,20 @@ export default function BrowseItems() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sortedItems.map((item) => (
               <Card key={item.id} className="hover:shadow-lg transition-shadow">
+                {/* Image Display */}
+                {item.image && (
+                  <div className="aspect-video w-full overflow-hidden rounded-t-lg">
+                    <img
+                      src={item.image}
+                      alt={`Photo of ${item.title}`}
+                      className="h-full w-full object-cover transition-transform hover:scale-105"
+                      onError={(e) => {
+                        // Hide image if it fails to load
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )}
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
                     <CardTitle className="text-lg font-semibold">
