@@ -111,9 +111,16 @@ const PostItem = React.memo(function PostItem() {
 
     // Check if Firebase is configured
     if (!isFirebaseEnabled) {
-      toast.error(
-        "Firebase is not configured. Please set up Firebase credentials to save items.",
-      );
+      // In demo mode, simulate successful submission
+      toast.success("Demo: Item submitted successfully! (Note: This is demo data and won't persist)");
+
+      // Wait a moment for user to see the success message, then redirect
+      setTimeout(() => {
+        navigate("/", {
+          replace: true,
+        });
+      }, 2000);
+
       setIsSubmitting(false);
       return;
     }
