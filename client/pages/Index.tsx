@@ -151,10 +151,12 @@ export default function Index() {
       const matchesCategory =
         selectedCategory === "All Categories" ||
         item.category === selectedCategory;
+
+      // Since we only show lost items, we don't need to check found items status
       const matchesStatus =
         selectedStatus === "All Items" ||
-        (selectedStatus === "Lost Items" && item.status === "lost") ||
-        (selectedStatus === "Found Items" && item.status === "found");
+        selectedStatus === "Lost Items";
+        // Don't show anything if "Found Items" is selected since main page only has lost items
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
