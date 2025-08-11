@@ -17,8 +17,7 @@ import {
 import { db } from "@/lib/firebase";
 import { LostFoundItem } from "@/types/database";
 import { handleFirebaseError, logError } from "@/utils/errorHandler";
-
-const COLLECTION_NAME = "lostFoundItems";
+import { APP_CONFIG } from "@/utils/constants";
 
 export class FirebaseService {
   // Helper function to remove undefined values
