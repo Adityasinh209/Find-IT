@@ -1,11 +1,13 @@
 # Firebase Setup Guide for FindIt
 
 ## ✅ Status: Firebase is Pre-Configured
+
 Your FindIt app is already set up with Firebase Firestore! Environment variables are configured in the development environment.
 
 ## 🔧 For Production Deployment
 
 ### 1. Set Environment Variables
+
 ```env
 VITE_CLERK_PUBLISHABLE_KEY=pk_test_aHVtYmxlLWxpb25lc3MtMjYuY2xlcmsuYWNjb3VudHMuZGV2JA
 VITE_FIREBASE_API_KEY=AIzaSyBeSNgk2A1ZtrkAxOPFrnF65IgXAox4Fuk
@@ -17,6 +19,7 @@ VITE_FIREBASE_APP_ID=1:1027461849743:web:214dd7aa1aab982b88c6fa
 ```
 
 ### 2. Firestore Security Rules
+
 ```javascript
 rules_version = '2';
 service cloud.firestore {
@@ -30,6 +33,7 @@ service cloud.firestore {
 ```
 
 ### 3. Ready for Production
+
 - ✅ Real-time data sync
 - ✅ Error handling
 - ✅ Performance optimized

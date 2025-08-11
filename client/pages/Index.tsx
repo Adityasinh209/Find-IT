@@ -36,7 +36,6 @@ import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
 
-
 export default function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");

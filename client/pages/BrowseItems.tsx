@@ -46,7 +46,6 @@ import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
 
-
 const locations = [
   "All Locations",
   "Main Library",

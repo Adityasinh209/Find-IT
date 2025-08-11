@@ -23,4 +23,13 @@ export interface User {
 }
 
 export type ItemStatus = "lost" | "found";
-export type ItemCategory = "Electronics" | "Bags" | "Keys" | "Personal Items" | "Clothing" | "Books" | "Sports Equipment" | "Jewelry" | "Other";
+export type ItemCategory =
+  | "Electronics"
+  | "Bags"
+  | "Keys"
+  | "Personal Items"
+  | "Clothing"
+  | "Books"
+  | "Sports Equipment"
+  | "Jewelry"
+  | "Other";

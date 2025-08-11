@@ -4,14 +4,28 @@ export const APP_CONFIG = {
   name: "FindIt",
   description: "Campus Lost & Found Portal",
   maxImageSize: 10 * 1024 * 1024, // 10MB
-  allowedImageTypes: ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"] as const,
+  allowedImageTypes: [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+  ] as const,
   redirectDelay: 1500,
   collectionName: "lostFoundItems",
 } as const;
 
 export const CATEGORIES = [
-  "All Categories", "Electronics", "Bags", "Keys", "Personal Items",
-  "Clothing", "Books", "Sports Equipment", "Jewelry", "Other"
+  "All Categories",
+  "Electronics",
+  "Bags",
+  "Keys",
+  "Personal Items",
+  "Clothing",
+  "Books",
+  "Sports Equipment",
+  "Jewelry",
+  "Other",
 ] as const;
 
 export const ITEM_STATUS = { LOST: "lost", FOUND: "found" } as const;

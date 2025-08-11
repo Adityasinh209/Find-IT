@@ -21,11 +21,15 @@ export const useAnalytics = () => {
     [trackEvent],
   );
 
-  const trackSearch = useCallback((searchTerm: string) => {
-    if (searchTerm.length > 2) { // Only track meaningful searches
-      trackEvent("search_performed", { search_term: searchTerm });
-    }
-  }, [trackEvent]);
+  const trackSearch = useCallback(
+    (searchTerm: string) => {
+      if (searchTerm.length > 2) {
+        // Only track meaningful searches
+        trackEvent("search_performed", { search_term: searchTerm });
+      }
+    },
+    [trackEvent],
+  );
 
   return { trackEvent, trackItemSubmission, trackSearch };
 };

@@ -2,7 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Construction, User, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { APP_CONFIG } from "@/utils/constants";
@@ -12,7 +18,10 @@ interface PlaceholderPageProps {
   description: string;
 }
 
-export default function PlaceholderPage({ title, description }: PlaceholderPageProps) {
+export default function PlaceholderPage({
+  title,
+  description,
+}: PlaceholderPageProps) {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -24,17 +33,28 @@ export default function PlaceholderPage({ title, description }: PlaceholderPageP
                 <ArrowLeft className="w-5 h-5 text-primary-foreground" />
               </div>
             </Link>
-            <Link to="/" className="text-2xl font-bold text-primary">{APP_CONFIG.name}</Link>
+            <Link to="/" className="text-2xl font-bold text-primary">
+              {APP_CONFIG.name}
+            </Link>
           </div>
           <div className="flex items-center space-x-3">
             <nav className="hidden md:flex items-center space-x-6 text-sm">
-              <Link to="/browse" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/browse"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Browse Items
               </Link>
-              <Link to="/post" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/post"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 Report Lost Item
               </Link>
-              <Link to="/help" className="text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                to="/help"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
                 About
               </Link>
             </nav>
@@ -69,7 +89,8 @@ export default function PlaceholderPage({ title, description }: PlaceholderPageP
             </CardHeader>
             <CardContent className="text-center space-y-4">
               <p className="text-muted-foreground">
-                This page is coming soon! Continue prompting to help fill in this page's content.
+                This page is coming soon! Continue prompting to help fill in
+                this page's content.
               </p>
               <Button asChild>
                 <Link to="/">Return to Home</Link>

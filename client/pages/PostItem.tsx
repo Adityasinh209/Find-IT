@@ -38,7 +38,6 @@ import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
 import { toast } from "sonner";
 
-
 const commonLocations = [
   "Main Library",
   "Student Union Building",
@@ -148,7 +147,9 @@ const PostItem = React.memo(function PostItem() {
 
     try {
       // Prepare data for Firebase (filter out undefined values)
-      const itemData: Partial<Omit<LostFoundItem, 'id' | 'createdAt' | 'updatedAt'>> = {
+      const itemData: Partial<
+        Omit<LostFoundItem, "id" | "createdAt" | "updatedAt">
+      > = {
         title: formData.title.trim(),
         category: formData.category,
         description: formData.description.trim(),
@@ -346,11 +347,13 @@ const PostItem = React.memo(function PostItem() {
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {CATEGORIES.filter(cat => cat !== "All Categories").map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
+                    {CATEGORIES.filter((cat) => cat !== "All Categories").map(
+                      (category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ),
+                    )}
                   </SelectContent>
                 </Select>
               </div>
