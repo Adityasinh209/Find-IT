@@ -17,8 +17,24 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { useEffect } from "react";
 
 const queryClient = new QueryClient();
+
+// Global error handler for unhandled promise rejections
+if (typeof window !== "undefined") {
+  window.addEventListener("unhandledrejection", (event) => {
+    console.error("Unhandled promise rejection:", event.reason);
+
+    // Check if it's a Clerk fetch error
+    if (event.reason?.message?.includes("Failed to fetch") &&
+        event.reason?.stack?.includes("clerk")) {
+      console.warn("Clerk fetch error caught - this might be a temporary network issue");
+      // Prevent the error from crashing the app
+      event.preventDefault();
+    }
+  });
+}
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
