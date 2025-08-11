@@ -105,14 +105,15 @@ const PostItem = React.memo(function PostItem() {
     setFormData((prev) => ({ ...prev, [field]: truncatedValue }));
   }, []);
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     // Check if Firebase is configured
     if (!isFirebaseEnabled) {
-      toast.error("Firebase is not configured. Please set up Firebase credentials to save items.");
+      toast.error(
+        "Firebase is not configured. Please set up Firebase credentials to save items.",
+      );
       setIsSubmitting(false);
       return;
     }
@@ -251,8 +252,8 @@ const PostItem = React.memo(function PostItem() {
               Report Lost Item
             </CardTitle>
             <CardDescription className="text-lg">
-              Help us help you find your lost item! Provide as much detail as possible to increase
-              the chances of recovery.
+              Help us help you find your lost item! Provide as much detail as
+              possible to increase the chances of recovery.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -380,7 +381,6 @@ const PostItem = React.memo(function PostItem() {
                 </p>
               </div>
 
-
               {/* Contact Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center space-x-2">
@@ -460,9 +460,7 @@ const PostItem = React.memo(function PostItem() {
                   className="flex-1"
                   aria-describedby="submit-status"
                 >
-                  {isSubmitting
-                    ? "Submitting..."
-                    : "Report Lost Item"}
+                  {isSubmitting ? "Submitting..." : "Report Lost Item"}
                 </Button>
                 <div id="submit-status" aria-live="polite" className="sr-only">
                   {isSubmitting ? "Form is being submitted" : ""}
