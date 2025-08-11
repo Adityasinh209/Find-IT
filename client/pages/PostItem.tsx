@@ -157,7 +157,7 @@ const PostItem = React.memo(function PostItem() {
 
     try {
       // Prepare data for Firebase (filter out undefined values)
-      const itemData: any = {
+      const itemData: Omit<LostFoundItem, 'id' | 'createdAt' | 'updatedAt'> = {
         title: formData.title.trim(),
         category: formData.category,
         description: formData.description.trim(),
