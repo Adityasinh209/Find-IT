@@ -346,7 +346,7 @@ const PostItem = React.memo(function PostItem() {
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {CATEGORIES.filter(cat => cat !== "All Categories").map((category) => (
                       <SelectItem key={category} value={category}>
                         {category}
                       </SelectItem>
