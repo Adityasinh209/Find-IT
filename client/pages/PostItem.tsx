@@ -36,6 +36,7 @@ import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
+import { isFirebaseEnabled } from "@/lib/firebase";
 import { toast } from "sonner";
 
 const commonLocations = [
@@ -144,6 +145,13 @@ const PostItem = React.memo(function PostItem() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
+    // Check if Firebase is configured
+    if (!isFirebaseEnabled) {
+      toast.error("Firebase is not configured. Please set up Firebase credentials to save items.");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       // Prepare data for Firebase (filter out undefined values)
