@@ -316,11 +316,11 @@ const PostItem = React.memo(function PostItem() {
                 <Label className="text-base font-semibold">
                   Report Lost Item
                 </Label>
-                <div className="flex items-center space-x-2 p-3 bg-muted/50 rounded-lg">
-                  <RadioGroupItem value="lost" id="lost" checked disabled />
-                  <Label htmlFor="lost" className="cursor-pointer text-muted-foreground">
+                <div className="flex items-center space-x-3 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                  <div className="w-2 h-2 bg-primary rounded-full"></div>
+                  <span className="text-foreground font-medium">
                     I lost something
-                  </Label>
+                  </span>
                 </div>
               </div>
 
