@@ -58,7 +58,7 @@ export class FirebaseService {
   static async getAllItems(): Promise<LostFoundItem[]> {
     try {
       const q = query(
-        collection(db, COLLECTION_NAME),
+        collection(db, APP_CONFIG.collectionName),
         orderBy("createdAt", "desc"),
       );
       const querySnapshot = await getDocs(q);
@@ -110,7 +110,7 @@ export class FirebaseService {
   ): Promise<LostFoundItem[]> {
     try {
       const q = query(
-        collection(db, COLLECTION_NAME),
+        collection(db, APP_CONFIG.collectionName),
         orderBy("createdAt", "desc"),
         limit(limitCount),
       );
@@ -134,7 +134,7 @@ export class FirebaseService {
   ): Promise<LostFoundItem[]> {
     try {
       const q = query(
-        collection(db, COLLECTION_NAME),
+        collection(db, APP_CONFIG.collectionName),
         where("status", "==", status),
         orderBy("createdAt", "desc"),
       );
@@ -156,7 +156,7 @@ export class FirebaseService {
   static async getItemsByCategory(category: string): Promise<LostFoundItem[]> {
     try {
       const q = query(
-        collection(db, COLLECTION_NAME),
+        collection(db, APP_CONFIG.collectionName),
         where("category", "==", category),
         orderBy("createdAt", "desc"),
       );
@@ -180,7 +180,7 @@ export class FirebaseService {
     updates: Partial<LostFoundItem>,
   ): Promise<void> {
     try {
-      const itemRef = doc(db, COLLECTION_NAME, itemId);
+      const itemRef = doc(db, APP_CONFIG.collectionName, itemId);
 
       // Remove any undefined values to prevent Firebase errors
       const cleanedUpdates = this.removeUndefinedValues(updates);
@@ -199,7 +199,7 @@ export class FirebaseService {
   // Delete an item
   static async deleteItem(itemId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, COLLECTION_NAME, itemId));
+      await deleteDoc(doc(db, APP_CONFIG.collectionName, itemId));
       console.log("Item deleted successfully");
     } catch (error) {
       console.error("Error deleting item: ", error);
