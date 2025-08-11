@@ -31,18 +31,21 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AutocompleteSearch } from "@/components/AutocompleteSearch";
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
+import { toast } from "sonner";
 
 export default function Index() {
+  const { user } = useUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedStatus, setSelectedStatus] = useState("All Items");
   const [recentItems, setRecentItems] = useState<LostFoundItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [updatingItems, setUpdatingItems] = useState<Set<string>>(new Set());
 
   // Load recent items from Firebase on component mount with real-time updates
   useEffect(() => {
@@ -198,6 +201,29 @@ export default function Index() {
       .filter((suggestion) => suggestion.length > 2)
       .sort((a, b) => a.localeCompare(b));
   }, [recentItems]);
+
+  // Handle marking item as found
+  const handleMarkAsFound = async (itemId: string) => {
+    if (!itemId) return;
+
+    setUpdatingItems(prev => new Set(prev).add(itemId));
+
+    try {
+      await FirebaseService.updateItem(itemId, {
+        status: "found" as const
+      });
+      toast.success("Item marked as found successfully!");
+    } catch (error) {
+      console.error("Error marking item as found:", error);
+      toast.error("Failed to mark item as found. Please try again.");
+    } finally {
+      setUpdatingItems(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(itemId);
+        return newSet;
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -425,6 +451,34 @@ export default function Index() {
                           >
                             {item.contactPhone}
                           </a>
+                        </div>
+                      )}
+
+                      {/* Mark as Found button - only show for item owner and lost items */}
+                      {user &&
+                       item.status === "lost" &&
+                       (item.contactEmail === user.primaryEmailAddress?.emailAddress ||
+                        item.userId === user.id) && (
+                        <div className="pt-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleMarkAsFound(item.id!)}
+                            disabled={updatingItems.has(item.id!)}
+                            className="w-full text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700"
+                          >
+                            {updatingItems.has(item.id!) ? (
+                              <>
+                                <div className="w-4 h-4 mr-2 animate-spin rounded-full border-2 border-green-600 border-t-transparent" />
+                                Updating...
+                              </>
+                            ) : (
+                              <>
+                                <Eye className="w-4 h-4 mr-2" />
+                                Mark as Found
+                              </>
+                            )}
+                          </Button>
                         </div>
                       )}
                     </div>
