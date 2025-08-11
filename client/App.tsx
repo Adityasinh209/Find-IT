@@ -32,6 +32,15 @@ if (typeof window !== "undefined") {
       // Prevent the error from crashing the app
       event.preventDefault();
     }
+
+    // Check if it's a Firebase fetch error
+    if (event.reason?.message?.includes("Failed to fetch") &&
+        (event.reason?.stack?.includes("firebase") ||
+         event.reason?.stack?.includes("firestore"))) {
+      console.warn("Firebase fetch error caught - Firebase is not configured properly");
+      // Prevent the error from crashing the app
+      event.preventDefault();
+    }
   });
 }
 
