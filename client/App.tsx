@@ -19,6 +19,9 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { validateEnvironment } from "./utils/environment";
 
+// Validate environment variables before app initialization
+validateEnvironment();
+
 const queryClient = new QueryClient();
 
 // Import your Publishable Key
