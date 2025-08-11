@@ -46,18 +46,6 @@ import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
 
-const categories = [
-  "All Categories",
-  "Electronics",
-  "Bags",
-  "Keys",
-  "Personal Items",
-  "Clothing",
-  "Books",
-  "Sports Equipment",
-  "Jewelry",
-  "Other",
-];
 
 const locations = [
   "All Locations",
