@@ -34,6 +34,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { FirebaseService } from "@/services/firebaseService";
+import { LostFoundItem } from "@/types/database";
 import { toast } from "sonner";
 
 const categories = [
