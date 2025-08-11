@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to all lost/found items (public viewing)
+    match /lostFoundItems/{document} {
+      allow read: if true;
+      
+      // Allow write access only to authenticated users
+      allow write: if request.auth != null;
+      
+      // Allow users to update their own items
+      allow update: if request.auth != null && 
+        (request.auth.token.email == resource.data.contactEmail ||
+         request.auth.uid == resource.data.userId);
+         
+      // Allow users to delete their own items  
+      allow delete: if request.auth != null &&
+        (request.auth.token.email == resource.data.contactEmail ||
+         request.auth.uid == resource.data.userId);
+    }
+  }
+}
