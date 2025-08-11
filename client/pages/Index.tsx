@@ -136,6 +136,11 @@ export default function Index() {
 
   const filteredItems = useMemo(() => {
     return recentItems.filter((item) => {
+      // Main page only shows lost items
+      if (item.status !== "lost") {
+        return false;
+      }
+
       const lowerSearchQuery = searchQuery.toLowerCase();
       const matchesSearch =
         !searchQuery ||
@@ -370,11 +375,11 @@ export default function Index() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-foreground mb-4">
-              Recent Reports
+              Recent Lost Items
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              See what's been recently reported on campus. Your lost item might
-              already be here!
+              See what's been recently lost on campus. Your lost item might
+              already be reported here!
             </p>
           </div>
 
