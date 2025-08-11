@@ -24,7 +24,7 @@ export default function PlaceholderPage({ title, description }: PlaceholderPageP
                 <ArrowLeft className="w-5 h-5 text-primary-foreground" />
               </div>
             </Link>
-            <Link to="/" className="text-2xl font-bold text-primary">FindIt</Link>
+            <Link to="/" className="text-2xl font-bold text-primary">{APP_CONFIG.name}</Link>
           </div>
           <div className="flex items-center space-x-3">
             <nav className="hidden md:flex items-center space-x-6 text-sm">
