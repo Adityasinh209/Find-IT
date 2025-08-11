@@ -17,6 +17,7 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { validateEnvironment } from "./utils/environment";
 
 const queryClient = new QueryClient();
 
