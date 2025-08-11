@@ -35,7 +35,7 @@ export class FirebaseService {
   static async createItem(
     itemData: Omit<LostFoundItem, "id" | "createdAt" | "updatedAt">,
   ): Promise<string> {
-    if (!isFirebaseEnabled) {
+    if (!isFirebaseEnabled || !db) {
       throw new Error("Firebase is not configured. Please set up Firebase credentials.");
     }
 
@@ -60,7 +60,7 @@ export class FirebaseService {
 
   // Get all items
   static async getAllItems(): Promise<LostFoundItem[]> {
-    if (!isFirebaseEnabled) {
+    if (!isFirebaseEnabled || !db) {
       console.warn("Firebase not enabled, returning empty array");
       return [];
     }
@@ -88,37 +88,43 @@ export class FirebaseService {
   static subscribeToItems(
     callback: (items: LostFoundItem[]) => void,
   ): () => void {
-    if (!isFirebaseEnabled) {
+    if (!isFirebaseEnabled || !db) {
       console.warn("Firebase not enabled, calling callback with empty array");
       callback([]);
       return () => {}; // Return no-op unsubscribe function
     }
 
-    const q = query(
-      collection(db, APP_CONFIG.collectionName),
-      orderBy("createdAt", "desc"),
-    );
+    try {
+      const q = query(
+        collection(db, APP_CONFIG.collectionName),
+        orderBy("createdAt", "desc"),
+      );
 
-    const unsubscribe = onSnapshot(
-      q,
-      (querySnapshot: QuerySnapshot<DocumentData>) => {
-        const items = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          createdAt: doc.data().createdAt?.toDate() || new Date(),
-          updatedAt: doc.data().updatedAt?.toDate() || new Date(),
-        })) as LostFoundItem[];
+      const unsubscribe = onSnapshot(
+        q,
+        (querySnapshot: QuerySnapshot<DocumentData>) => {
+          const items = querySnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: doc.data().createdAt?.toDate() || new Date(),
+            updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+          })) as LostFoundItem[];
 
-        callback(items);
-      },
-      (error) => {
-        console.error("Error in real-time subscription: ", error);
-        // Fall back to empty array on error
-        callback([]);
-      },
-    );
+          callback(items);
+        },
+        (error) => {
+          console.error("Error in real-time subscription: ", error);
+          // Fall back to empty array on error
+          callback([]);
+        },
+      );
 
-    return unsubscribe;
+      return unsubscribe;
+    } catch (error) {
+      console.error("Error setting up Firebase subscription: ", error);
+      callback([]);
+      return () => {}; // Return no-op unsubscribe function
+    }
   }
 
   // Get recent items (limit 6 for homepage)
@@ -196,7 +202,7 @@ export class FirebaseService {
     itemId: string,
     updates: Partial<LostFoundItem>,
   ): Promise<void> {
-    if (!isFirebaseEnabled) {
+    if (!isFirebaseEnabled || !db) {
       throw new Error("Firebase is not configured. Please set up Firebase credentials.");
     }
 

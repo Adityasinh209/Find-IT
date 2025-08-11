@@ -15,8 +15,12 @@ const firebaseConfig = {
 const isFirebaseConfigured = () => {
   return firebaseConfig.apiKey &&
          firebaseConfig.projectId &&
+         firebaseConfig.apiKey !== 'your-firebase-api-key-here' &&
+         firebaseConfig.projectId !== 'your-project-id' &&
          !firebaseConfig.apiKey.includes('your-') &&
-         !firebaseConfig.projectId.includes('your-');
+         !firebaseConfig.projectId.includes('your-') &&
+         firebaseConfig.apiKey.length > 20 && // Valid API keys are longer
+         firebaseConfig.projectId.length > 5; // Valid project IDs are longer
 };
 
 let app: any = null;
