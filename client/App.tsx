@@ -17,7 +17,6 @@ import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
