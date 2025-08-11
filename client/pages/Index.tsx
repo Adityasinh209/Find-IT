@@ -445,6 +445,20 @@ export default function Index() {
                   key={item.id}
                   className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-md bg-card/50 backdrop-blur-sm"
                 >
+                  {/* Image Display */}
+                  {item.image && (
+                    <div className="aspect-video w-full overflow-hidden rounded-t-lg">
+                      <img
+                        src={item.image}
+                        alt={`Photo of ${item.title}`}
+                        className="h-full w-full object-cover transition-transform hover:scale-105"
+                        onError={(e) => {
+                          // Hide image if it fails to load
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
                   <CardHeader>
                     <div className="flex items-start justify-between mb-2">
                       <CardTitle className="text-lg font-semibold">
