@@ -50,8 +50,8 @@ export class FirebaseService {
       console.log("Item created with ID: ", docRef.id);
       return docRef.id;
     } catch (error) {
-      console.error("Error creating item: ", error);
-      throw error;
+      logError("FirebaseService.createItem", error, { itemData });
+      throw new Error(handleFirebaseError(error));
     }
   }
 
