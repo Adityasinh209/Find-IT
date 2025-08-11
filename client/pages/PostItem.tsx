@@ -70,6 +70,7 @@ const PostItem = React.memo(function PostItem() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
   // Auto-fill contact information from Clerk user data
   useEffect(() => {
@@ -137,10 +138,23 @@ const PostItem = React.memo(function PostItem() {
         }
 
         setFormData((prev) => ({ ...prev, image: file }));
+
+        // Create preview URL for the image
+        const previewUrl = URL.createObjectURL(file);
+        setImagePreviewUrl(previewUrl);
       }
     },
     [],
   );
+
+  // Clean up the image preview URL when component unmounts or image changes
+  React.useEffect(() => {
+    return () => {
+      if (imagePreviewUrl) {
+        URL.revokeObjectURL(imagePreviewUrl);
+      }
+    };
+  }, [imagePreviewUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -297,31 +311,17 @@ const PostItem = React.memo(function PostItem() {
               className="space-y-6"
               aria-label="Report lost or found item"
             >
-              {/* Item Type */}
+              {/* Item Type - Only Lost Items */}
               <div className="space-y-3">
                 <Label className="text-base font-semibold">
-                  What are you reporting?
+                  Report Lost Item
                 </Label>
-                <RadioGroup
-                  value={formData.itemType}
-                  onValueChange={(value) =>
-                    handleInputChange("itemType", value)
-                  }
-                  className="flex space-x-6"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="lost" id="lost" />
-                    <Label htmlFor="lost" className="cursor-pointer">
-                      I lost something
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="found" id="found" />
-                    <Label htmlFor="found" className="cursor-pointer">
-                      I found something
-                    </Label>
-                  </div>
-                </RadioGroup>
+                <div className="flex items-center space-x-2 p-3 bg-muted/50 rounded-lg">
+                  <RadioGroupItem value="lost" id="lost" checked disabled />
+                  <Label htmlFor="lost" className="cursor-pointer text-muted-foreground">
+                    I lost something
+                  </Label>
+                </div>
               </div>
 
               {/* Item Title */}
@@ -444,19 +444,58 @@ const PostItem = React.memo(function PostItem() {
                     onChange={handleImageUpload}
                     className="hidden"
                   />
-                  <label htmlFor="image" className="cursor-pointer">
-                    <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                    <p className="text-sm text-muted-foreground">
-                      Click to upload a photo or drag and drop
-                    </p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      PNG, JPG, GIF up to 10MB
-                    </p>
-                  </label>
-                  {formData.image && (
-                    <p className="text-sm text-primary mt-2">
-                      Selected: {formData.image.name}
-                    </p>
+
+                  {!formData.image ? (
+                    <label htmlFor="image" className="cursor-pointer">
+                      <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        Click to upload a photo or drag and drop
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        PNG, JPG, GIF up to 10MB
+                      </p>
+                    </label>
+                  ) : (
+                    <div className="space-y-3">
+                      {/* Image Preview */}
+                      {imagePreviewUrl && (
+                        <div className="relative">
+                          <img
+                            src={imagePreviewUrl}
+                            alt="Preview of uploaded item"
+                            className="mx-auto max-h-48 max-w-full rounded-lg object-cover shadow-md"
+                          />
+                        </div>
+                      )}
+
+                      {/* File Info */}
+                      <p className="text-sm text-primary font-medium">
+                        Selected: {formData.image.name}
+                      </p>
+
+                      {/* Change Image Button */}
+                      <div className="flex justify-center space-x-2">
+                        <label htmlFor="image" className="cursor-pointer">
+                          <Button type="button" variant="outline" size="sm">
+                            Change Image
+                          </Button>
+                        </label>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            setFormData(prev => ({ ...prev, image: null }));
+                            setImagePreviewUrl(null);
+                            // Reset file input
+                            const fileInput = document.getElementById('image') as HTMLInputElement;
+                            if (fileInput) fileInput.value = '';
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
