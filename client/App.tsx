@@ -56,9 +56,6 @@ const App = () => (
             rootBox: "h-full"
           }
         }}
-        onError={(error) => {
-          console.error("Clerk authentication error:", error);
-        }}
       >
         <ThemeProvider defaultTheme="system" storageKey="findit-ui-theme">
           <TooltipProvider>
