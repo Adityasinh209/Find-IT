@@ -14,7 +14,7 @@ import {
   QuerySnapshot,
   DocumentData,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, isFirebaseEnabled } from "@/lib/firebase";
 import { LostFoundItem } from "@/types/database";
 import { handleFirebaseError, logError } from "@/utils/errorHandler";
 import { APP_CONFIG } from "@/utils/constants";
@@ -35,6 +35,10 @@ export class FirebaseService {
   static async createItem(
     itemData: Omit<LostFoundItem, "id" | "createdAt" | "updatedAt">,
   ): Promise<string> {
+    if (!isFirebaseEnabled) {
+      throw new Error("Firebase is not configured. Please set up Firebase credentials.");
+    }
+
     try {
       const now = new Date();
 
@@ -56,6 +60,11 @@ export class FirebaseService {
 
   // Get all items
   static async getAllItems(): Promise<LostFoundItem[]> {
+    if (!isFirebaseEnabled) {
+      console.warn("Firebase not enabled, returning empty array");
+      return [];
+    }
+
     try {
       const q = query(
         collection(db, APP_CONFIG.collectionName),
@@ -79,6 +88,12 @@ export class FirebaseService {
   static subscribeToItems(
     callback: (items: LostFoundItem[]) => void,
   ): () => void {
+    if (!isFirebaseEnabled) {
+      console.warn("Firebase not enabled, calling callback with empty array");
+      callback([]);
+      return () => {}; // Return no-op unsubscribe function
+    }
+
     const q = query(
       collection(db, APP_CONFIG.collectionName),
       orderBy("createdAt", "desc"),
@@ -98,6 +113,8 @@ export class FirebaseService {
       },
       (error) => {
         console.error("Error in real-time subscription: ", error);
+        // Fall back to empty array on error
+        callback([]);
       },
     );
 
@@ -179,6 +196,10 @@ export class FirebaseService {
     itemId: string,
     updates: Partial<LostFoundItem>,
   ): Promise<void> {
+    if (!isFirebaseEnabled) {
+      throw new Error("Firebase is not configured. Please set up Firebase credentials.");
+    }
+
     try {
       const itemRef = doc(db, APP_CONFIG.collectionName, itemId);
 

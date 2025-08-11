@@ -11,11 +11,32 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Check if Firebase is properly configured
+const isFirebaseConfigured = () => {
+  return firebaseConfig.apiKey &&
+         firebaseConfig.projectId &&
+         !firebaseConfig.apiKey.includes('your-') &&
+         !firebaseConfig.projectId.includes('your-');
+};
 
-// Initialize Firebase services
-export const db = getFirestore(app);
-export const auth = getAuth(app);
+let app: any = null;
+let db: any = null;
+let auth: any = null;
 
+// Only initialize Firebase if properly configured
+if (isFirebaseConfigured()) {
+  try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+    console.log("Firebase initialized successfully");
+  } catch (error) {
+    console.warn("Firebase initialization failed:", error);
+  }
+} else {
+  console.warn("Firebase not configured - using mock data mode");
+}
+
+export { db, auth };
+export const isFirebaseEnabled = isFirebaseConfigured() && app !== null;
 export default app;
