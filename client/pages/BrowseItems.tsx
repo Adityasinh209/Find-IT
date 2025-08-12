@@ -555,7 +555,16 @@ export default function BrowseItems() {
         ) : sortedItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sortedItems.map((item) => (
-              <Card key={item.id} className="hover:shadow-lg transition-shadow">
+              <Card
+                key={item.id}
+                id={`item-${item.id}`}
+                className={cn(
+                  "hover:shadow-lg transition-all duration-500",
+                  highlightedItemId === item.id
+                    ? "ring-2 ring-primary ring-offset-2 shadow-xl scale-[1.02] bg-primary/5"
+                    : ""
+                )}
+              >
                 {/* Image Display */}
                 {item.image && (
                   <div className="aspect-video w-full overflow-hidden rounded-t-lg">
