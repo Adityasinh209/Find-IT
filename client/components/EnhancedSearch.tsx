@@ -27,6 +27,7 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
   }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const [touchedIndex, setTouchedIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
     const listRef = useRef<HTMLUListElement>(null);
     const navigate = useNavigate();
@@ -267,14 +268,19 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
                       "px-4 py-3 cursor-pointer text-sm transition-colors border-b border-border/50 last:border-b-0 touch-manipulation touch-suggestion",
                       index === highlightedIndex
                         ? "bg-accent text-accent-foreground"
+                        : index === touchedIndex
+                        ? "bg-accent/70 text-accent-foreground"
                         : "hover:bg-accent/50 active:bg-accent/70",
                     )}
                     onClick={() => handleSuggestionSelect(item)}
+                    onTouchStart={() => setTouchedIndex(index)}
                     onTouchEnd={(e) => {
                       // Handle touch events for mobile
                       e.preventDefault();
+                      setTouchedIndex(-1);
                       handleSuggestionSelect(item);
                     }}
+                    onTouchCancel={() => setTouchedIndex(-1)}
                     onMouseEnter={() => setHighlightedIndex(index)}
                   >
                     <div className="flex items-start space-x-3">
