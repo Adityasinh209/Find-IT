@@ -41,7 +41,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AutocompleteSearch } from "@/components/AutocompleteSearch";
+import { EnhancedSearch } from "@/components/EnhancedSearch";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { cn } from "@/lib/utils";
 import { FirebaseService } from "@/services/firebaseService";
@@ -456,14 +456,14 @@ export default function BrowseItems() {
         <div className="mb-8">
           <div className="flex flex-col lg:flex-row gap-4 mb-4">
             <div className="flex-1">
-              <AutocompleteSearch
+              <EnhancedSearch
                 value={searchQuery}
                 onChange={setSearchQuery}
-                suggestions={searchSuggestions}
+                items={allItems}
                 placeholder="Search for items..."
                 className="max-w-none"
-                onSearch={() => {
-                  console.log("Browse search performed:", searchQuery);
+                onSearch={(query) => {
+                  console.log("Browse search performed:", query);
                 }}
               />
             </div>
