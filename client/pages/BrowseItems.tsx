@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   Search,
@@ -43,6 +43,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { AutocompleteSearch } from "@/components/AutocompleteSearch";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
+import { cn } from "@/lib/utils";
 import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
 import { CATEGORIES } from "@/utils/constants";
@@ -62,6 +63,7 @@ const locations = [
 
 export default function BrowseItems() {
   const { user } = useUser();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedLocation, setSelectedLocation] = useState("All Locations");
@@ -72,6 +74,31 @@ export default function BrowseItems() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [updatingItems, setUpdatingItems] = useState<Set<string>>(new Set());
+  const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null);
+
+  // Initialize search from URL parameters
+  useEffect(() => {
+    const searchFromUrl = searchParams.get("search");
+    const highlightFromUrl = searchParams.get("highlight");
+
+    if (searchFromUrl) {
+      setSearchQuery(searchFromUrl);
+    }
+
+    if (highlightFromUrl) {
+      setHighlightedItemId(highlightFromUrl);
+      // Auto-scroll to highlighted item after a delay
+      setTimeout(() => {
+        const highlightedElement = document.getElementById(`item-${highlightFromUrl}`);
+        if (highlightedElement) {
+          highlightedElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }, 500);
+    }
+  }, [searchParams]);
 
   // Load all items from Firebase on component mount with real-time listener
   useEffect(() => {
@@ -244,6 +271,17 @@ export default function BrowseItems() {
       }
     };
   }, []);
+
+  // Clear highlighting after 3 seconds
+  useEffect(() => {
+    if (highlightedItemId) {
+      const timer = setTimeout(() => {
+        setHighlightedItemId(null);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [highlightedItemId]);
 
   const filteredItems = useMemo(() => {
     return allItems.filter((item) => {
