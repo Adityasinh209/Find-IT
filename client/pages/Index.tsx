@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AutocompleteSearch } from "@/components/AutocompleteSearch";
+import { EnhancedSearch } from "@/components/EnhancedSearch";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { FirebaseService } from "@/services/firebaseService";
 import { LostFoundItem } from "@/types/database";
@@ -344,16 +344,15 @@ export default function Index() {
             better place.
           </p>
 
-          {/* Search Bar */}
+          {/* Enhanced Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
-            <AutocompleteSearch
+            <EnhancedSearch
               value={searchQuery}
               onChange={setSearchQuery}
-              suggestions={searchSuggestions}
+              items={recentItems}
               placeholder="Search for lost items..."
-              onSearch={() => {
-                // Optional: Add analytics or additional search logic here
-                console.log("Search performed:", searchQuery);
+              onSearch={(query) => {
+                console.log("Search performed:", query);
               }}
             />
           </div>
