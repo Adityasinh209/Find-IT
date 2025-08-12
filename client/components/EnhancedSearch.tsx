@@ -264,12 +264,17 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
                     role="option"
                     aria-selected={index === highlightedIndex}
                     className={cn(
-                      "px-4 py-3 cursor-pointer text-sm transition-colors border-b border-border/50 last:border-b-0",
+                      "px-4 py-3 cursor-pointer text-sm transition-colors border-b border-border/50 last:border-b-0 touch-manipulation touch-suggestion",
                       index === highlightedIndex
                         ? "bg-accent text-accent-foreground"
-                        : "hover:bg-accent/50",
+                        : "hover:bg-accent/50 active:bg-accent/70",
                     )}
                     onClick={() => handleSuggestionSelect(item)}
+                    onTouchEnd={(e) => {
+                      // Handle touch events for mobile
+                      e.preventDefault();
+                      handleSuggestionSelect(item);
+                    }}
                     onMouseEnter={() => setHighlightedIndex(index)}
                   >
                     <div className="flex items-start space-x-3">

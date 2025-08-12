@@ -272,12 +272,12 @@ export default function BrowseItems() {
     };
   }, []);
 
-  // Clear highlighting after 3 seconds
+  // Clear highlighting after 2 seconds
   useEffect(() => {
     if (highlightedItemId) {
       const timer = setTimeout(() => {
         setHighlightedItemId(null);
-      }, 3000);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
