@@ -4,8 +4,13 @@
 
 /* Enhanced search highlighting animation */
 @keyframes highlight-pulse {
-  0%, 100% { transform: scale(1.02); }
-  50% { transform: scale(1.05); }
+  0%,
+  100% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .highlight-item {
@@ -141,9 +146,11 @@
   }
 
   .gradient-border::before {
-    content: '';
+    content: "";
     @apply absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 p-[1px];
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     mask-composite: xor;
   }
 }

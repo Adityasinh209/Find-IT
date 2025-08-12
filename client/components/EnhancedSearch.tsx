@@ -37,15 +37,16 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
       if (!value.trim() || value.length < 2) return [];
 
       const searchTerm = value.toLowerCase();
-      
+
       // Get matching items from database
       const matchingItems = items
-        .filter((item) => 
-          item.status === "lost" && // Only show lost items in suggestions
-          (item.title.toLowerCase().includes(searchTerm) ||
-           item.description.toLowerCase().includes(searchTerm) ||
-           item.category.toLowerCase().includes(searchTerm) ||
-           item.location.toLowerCase().includes(searchTerm))
+        .filter(
+          (item) =>
+            item.status === "lost" && // Only show lost items in suggestions
+            (item.title.toLowerCase().includes(searchTerm) ||
+              item.description.toLowerCase().includes(searchTerm) ||
+              item.category.toLowerCase().includes(searchTerm) ||
+              item.location.toLowerCase().includes(searchTerm)),
         )
         .slice(0, 6) // Limit to 6 suggestions
         .sort((a, b) => {
@@ -54,15 +55,18 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
           const bTitleMatch = b.title.toLowerCase().includes(searchTerm);
           if (aTitleMatch && !bTitleMatch) return -1;
           if (!aTitleMatch && bTitleMatch) return 1;
-          
+
           // Then sort by how well the title matches (starts with search term gets priority)
           const aStartsWithTitle = a.title.toLowerCase().startsWith(searchTerm);
           const bStartsWithTitle = b.title.toLowerCase().startsWith(searchTerm);
           if (aStartsWithTitle && !bStartsWithTitle) return -1;
           if (!aStartsWithTitle && bStartsWithTitle) return 1;
-          
+
           // Finally sort by recency
-          return new Date(b.dateReported).getTime() - new Date(a.dateReported).getTime();
+          return (
+            new Date(b.dateReported).getTime() -
+            new Date(a.dateReported).getTime()
+          );
         });
 
       return matchingItems;
@@ -86,11 +90,11 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
         onChange(item.title);
         setIsOpen(false);
         setHighlightedIndex(-1);
-        
+
         // Navigate to browse page with highlighted item
         const params = new URLSearchParams({
           search: item.title,
-          highlight: item.id || ""
+          highlight: item.id || "",
         });
         navigate(`/browse?${params.toString()}`);
       },
@@ -269,8 +273,8 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
                       index === highlightedIndex
                         ? "bg-accent text-accent-foreground"
                         : index === touchedIndex
-                        ? "bg-accent/70 text-accent-foreground"
-                        : "hover:bg-accent/50 active:bg-accent/70",
+                          ? "bg-accent/70 text-accent-foreground"
+                          : "hover:bg-accent/50 active:bg-accent/70",
                     )}
                     onClick={() => handleSuggestionSelect(item)}
                     onTouchStart={() => setTouchedIndex(index)}
@@ -305,7 +309,9 @@ export const EnhancedSearch = React.memo<EnhancedSearchProps>(
                           </div>
                           <div className="flex items-center space-x-1">
                             <Calendar className="w-3 h-3" />
-                            <span>{new Date(item.dateReported).toLocaleDateString()}</span>
+                            <span>
+                              {new Date(item.dateReported).toLocaleDateString()}
+                            </span>
                           </div>
                         </div>
                         <p className="text-xs text-muted-foreground mt-1 line-clamp-1">

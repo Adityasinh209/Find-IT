@@ -73,7 +73,8 @@ export default function Index() {
                 contactEmail: "john.doe@university.edu",
                 contactPhone: "+91 98765 43210",
                 contactName: "John Doe",
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
+                image:
+                  "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
                 createdAt: new Date(),
                 updatedAt: new Date(),
               },
@@ -89,7 +90,8 @@ export default function Index() {
                 contactEmail: "sarah.smith@university.edu",
                 contactPhone: "+91 87654 32109",
                 contactName: "Sarah Smith",
-                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
+                image:
+                  "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
                 createdAt: new Date(),
                 updatedAt: new Date(),
               },
@@ -194,9 +196,8 @@ export default function Index() {
 
       // Since we only show lost items, we don't need to check found items status
       const matchesStatus =
-        selectedStatus === "All Items" ||
-        selectedStatus === "Lost Items";
-        // Don't show anything if "Found Items" is selected since main page only has lost items
+        selectedStatus === "All Items" || selectedStatus === "Lost Items";
+      // Don't show anything if "Found Items" is selected since main page only has lost items
 
       return matchesSearch && matchesCategory && matchesStatus;
     });
@@ -255,18 +256,18 @@ export default function Index() {
   const handleMarkAsFound = async (itemId: string) => {
     if (!itemId) return;
 
-    setUpdatingItems(prev => new Set(prev).add(itemId));
+    setUpdatingItems((prev) => new Set(prev).add(itemId));
 
     try {
       await FirebaseService.updateItem(itemId, {
-        status: "found" as const
+        status: "found" as const,
       });
       toast.success("Item marked as found successfully!");
     } catch (error) {
       console.error("Error marking item as found:", error);
       toast.error("Failed to mark item as found. Please try again.");
     } finally {
-      setUpdatingItems(prev => {
+      setUpdatingItems((prev) => {
         const newSet = new Set(prev);
         newSet.delete(itemId);
         return newSet;
@@ -455,7 +456,7 @@ export default function Index() {
                         className="h-full w-full object-cover transition-transform hover:scale-105"
                         onError={(e) => {
                           // Hide image if it fails to load
-                          e.currentTarget.style.display = 'none';
+                          e.currentTarget.style.display = "none";
                         }}
                       />
                     </div>
@@ -518,31 +519,32 @@ export default function Index() {
 
                       {/* Mark as Found button - only show for item owner and lost items */}
                       {user &&
-                       item.status === "lost" &&
-                       (item.contactEmail === user.primaryEmailAddress?.emailAddress ||
-                        item.userId === user.id) && (
-                        <div className="pt-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleMarkAsFound(item.id!)}
-                            disabled={updatingItems.has(item.id!)}
-                            className="w-full text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700"
-                          >
-                            {updatingItems.has(item.id!) ? (
-                              <>
-                                <div className="w-4 h-4 mr-2 animate-spin rounded-full border-2 border-green-600 border-t-transparent" />
-                                Updating...
-                              </>
-                            ) : (
-                              <>
-                                <Eye className="w-4 h-4 mr-2" />
-                                Mark as Found
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      )}
+                        item.status === "lost" &&
+                        (item.contactEmail ===
+                          user.primaryEmailAddress?.emailAddress ||
+                          item.userId === user.id) && (
+                          <div className="pt-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleMarkAsFound(item.id!)}
+                              disabled={updatingItems.has(item.id!)}
+                              className="w-full text-green-600 border-green-600 hover:bg-green-50 hover:text-green-700"
+                            >
+                              {updatingItems.has(item.id!) ? (
+                                <>
+                                  <div className="w-4 h-4 mr-2 animate-spin rounded-full border-2 border-green-600 border-t-transparent" />
+                                  Updating...
+                                </>
+                              ) : (
+                                <>
+                                  <Eye className="w-4 h-4 mr-2" />
+                                  Mark as Found
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        )}
                     </div>
                   </CardContent>
                 </Card>
